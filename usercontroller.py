@@ -134,7 +134,7 @@ class UserHandler(tornado.web.RequestHandler):
     def post(self):
         operation = self.get_argument("op")
         id = self.get_argument("id")
-        cmd="docekr "+operation+" "+id
+        cmd="docker "+operation+" "+id
         print(cmd)
         result=ssh(cmd)
         print(result)
