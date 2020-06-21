@@ -45,9 +45,10 @@ def stop(clinet, container):
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
-        username = self.get_argument('username')
-        password = self.get_argument('password')
+        username = self.get_argument("username")
+        password = self.get_argument("password")
         print("当前访问用户：",username,"密码：",password)
+
         self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
@@ -125,10 +126,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        username = self.get_argument("username")
-        password = self.get_argument("password")
-        print(username)
-        print(password)
+
 
         operation = self.get_argument("op")
         id = self.get_argument("id")
