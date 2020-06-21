@@ -134,7 +134,10 @@ class UserHandler(tornado.web.RequestHandler):
     def post(self):
         operation = self.get_argument("op")
         id = self.get_argument("id")
-        result=ssh("docekr "+operation+" "+id)
+        cmd="docekr "+operation+" "+id
+        print(cmd)
+        result=ssh(cmd)
+        print(result)
         # if _operation=="images":
         #     _operation = self.get_argument("images")
         #     print(_operation)
