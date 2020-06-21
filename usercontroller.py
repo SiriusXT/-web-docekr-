@@ -96,7 +96,7 @@ class UserHandler(tornado.web.RequestHandler):
         # for i in images:
         #     s = s + str(i) + "\n"
         ss = ssh("docker images")
-        for i in range(len(ss)-1):
+        for i in range(4):
             _operation = self.get_argument(str(i))
             print(_operation)
 
