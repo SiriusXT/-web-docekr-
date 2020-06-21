@@ -57,9 +57,13 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='del'>" + "删除" + "</label>"))
+                                     "<p>下载:<br><input type='text' name='operation'></p>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='download'>" + "下载" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
 
@@ -77,7 +81,9 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='dell'>" + "删除" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
 
@@ -127,10 +133,8 @@ class IndexHandler(tornado.web.RequestHandler):
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         operation = self.get_argument("op")
-        print(operation)
         id = self.get_argument("id")
-        print(id)
-
+        result=ssh("docekr "+operation+" "+id)
         # if _operation=="images":
         #     _operation = self.get_argument("images")
         #     print(_operation)
@@ -138,7 +142,7 @@ class UserHandler(tornado.web.RequestHandler):
         #     _operation = self.get_argument(str(i))
         #     print(_operation)
 
-        self.render("user.html",  result="1")
+        self.render("user.html",  result=result)
 
 
 handlers = [
