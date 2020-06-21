@@ -52,7 +52,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
-        s = "<h2><input type='radio' name='username' value=" + username + ">" +"Welcome "+username + "</h2>"
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" +"Welcome "+username + "</h2>"
         self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
@@ -133,10 +133,10 @@ class UserHandler(tornado.web.RequestHandler):
 
         if operation=="run -d -it":
             print(111)
-            with open('../data/data.txt', "r") as f:  # 设置文件对象
+            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 str = f.read()
                 print(str)
-            with open('../data/data.txt', 'w') as f:  # 设置文件对象
+            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(str+"\n"+id+" "+username)
 
         cmd = "docker " + operation + " " + id
