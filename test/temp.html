@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>TEMP</title>
+</head>
+
+<body>
+    <input type="button" value="微笑"  onclick="hello()"/>
+	<p id="display">{{ temp }}</p>
+</body>
+
+<script type="text/javascript">
+   function hello()
+   {
+       $.ajax(
+      {
+         type: "POST",
+         url: "/hello",
+         dataType: "html",
+         success: function(msg)
+         {
+             console.log(msg);
+             $("#display").html(msg);//注意显示的id
+         },
+         error: function (xhr, status, error) {
+            console.log(error);
+        }
+      });
+   }
+</script>
+</html>

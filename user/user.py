@@ -8,12 +8,12 @@ import tornado.options
 import tornado.web
 from tornado.options import define, options
 
-define("port", default=80, help="run on the given port", type=int)
+define("port", default=10045, help="run on the given port", type=int)
 
 import paramiko
 
 
-def ssh(cmd):
+def sshdocker(cmd):
     _ssh = paramiko.SSHClient()
     key = paramiko.AutoAddPolicy()
     _ssh.set_missing_host_key_policy(key)
@@ -45,27 +45,24 @@ def stop(clinet, container):
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
+        username = self.get_argument('username')
+        password = self.get_argument('password')
+        print("当前访问用户：",username,"密码：",password)
+        self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))
+
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
-        self.write(self.get_argument("greeting", "<p>用户名:<input type='text' name='username'></p>"))
-        self.write(self.get_argument("greeting", "<p>密码:<input type='text' name='password'></p>"))
-        self.write(self.get_argument("greeting", "<h3>提交任务校验密码</h3>"))  ################
+
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
-        ss = ssh("docker images")
+        ss = sshdocker("docker images")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
             s="<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
+            self.write(self.get_argument("greeting", s))
 
-            greeting = self.get_argument("greeting", s)
-            self.write(greeting)
-        self.write(self.get_argument("greeting",
-                                     "<p>下载:<br><input type='text' name='pullname'></p>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
+
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
@@ -73,7 +70,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 
         self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
-        ss = ssh("docker ps -a")
+        ss = sshdocker("docker ps -a")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
@@ -92,7 +89,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 
         self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
-        ss = ssh("docker ps")
+        ss = sshdocker("docker ps")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
@@ -105,13 +102,6 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-
-
-
-
-
-        self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         self.write(self.get_argument("greeting", "</form>"))
 
     # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
@@ -151,7 +141,7 @@ class UserHandler(tornado.web.RequestHandler):
         print(cmd)
 
 
-        ss=ssh(cmd)
+        ss=sshdocker(cmd)
 
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################

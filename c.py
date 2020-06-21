@@ -1,3 +1,0 @@
-s=['REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE', 'cc                  0.1                 79762a31b7d1        38 hours ago        73.9MB', 'cc                  latest              79762a31b7d1        38 hours ago        73.9MB', 'ubuntu              latest              74435f89ab78        3 days ago          73.9MB', 'httpd               latest              8326be82abe6        2 months ago        166MB']
-for i in s:
-    print(i)
