@@ -62,7 +62,7 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<p>下载:<br><input type='text' name='operation'></p>"))
+                                     "<p>下载:<br><input type='text' name='pullname'></p>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
@@ -146,7 +146,7 @@ class UserHandler(tornado.web.RequestHandler):
         id = self.get_argument("id")
 
         if operation=="pull":
-            id=operation
+            id=self.get_argument("pullname")
 
         cmd = "docker " + operation + " " + id
         print(cmd)
