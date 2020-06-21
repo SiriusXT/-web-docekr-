@@ -47,6 +47,10 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
+        self.write(self.get_argument("greeting", "<p>用户名:<input type='text' name='username'></p>"))
+        self.write(self.get_argument("greeting", "<p>密码:<input type='text' name='password'></p>"))
+
+
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = ssh("docker images")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
@@ -133,12 +137,22 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
+        username = self.get_argument("username")
+        password = self.get_argument("password")
+        print(username)
+        print(password)
+
         operation = self.get_argument("op")
         id = self.get_argument("id")
-        cmd="docker "+operation+" "+id
+
+        if operation=="pull":
+            id=operation
+
+        cmd = "docker " + operation + " " + id
         print(cmd)
+
+
         ss=ssh(cmd)
-        print(ss)
 
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
@@ -149,73 +163,6 @@ class UserHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/'>返回首页</a>"))
 
-        self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))  ################
-
-        self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
-        ss = ssh("docker images")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
-        self.write(greeting)
-        ss = ss[1:]
-        for line in ss:
-            s = "<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
-
-            greeting = self.get_argument("greeting", s)
-            self.write(greeting)
-        self.write(self.get_argument("greeting",
-                                     "<p>下载:<br><input type='text' name='operation'></p>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
-        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
-
-        self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
-        ss = ssh("docker ps -a")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
-        self.write(greeting)
-        ss = ss[1:]
-        for line in ss:
-            s = "<p><input type='radio' name='id' value=" + line.split()[0] + ">" + line.replace(" ", "&nbsp") + "</p>"
-
-            greeting = self.get_argument("greeting", s)
-            self.write(greeting)
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"))
-        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
-
-        self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
-        ss = ssh("docker ps")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
-        self.write(greeting)
-        ss = ss[1:]
-        for line in ss:
-            s = "<p><input type='radio' name='id' value=" + line.split()[0] + ">" + line.replace(" ", "&nbsp") + "</p>"
-            greeting = self.get_argument("greeting", s)
-            self.write(greeting)
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"))
-
-        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
-
-        self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
-        self.write(self.get_argument("greeting", "</form>"))
-
-
-        # if _operation=="images":
-        #     _operation = self.get_argument("images")
-        #     print(_operation)
-        # for i in range(4):
-        #     _operation = self.get_argument(str(i))
-        #     print(_operation)
-
-        # self.render("user.html",  result=result)
 
 
 handlers = [
