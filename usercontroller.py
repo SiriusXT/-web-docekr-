@@ -19,7 +19,7 @@ def ssh(cmd):
     stdin, stdout, stderr = ssh.exec_command(cmd)
     s=''
     for i in stdout.readlines():
-        s=s+i+"\n"
+        s=s+i
     return s
     #return stdout
 
