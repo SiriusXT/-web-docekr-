@@ -14,16 +14,17 @@ import paramiko
 
 
 def ssh(cmd):
-    ssh = paramiko.SSHClient()
+    _ssh = paramiko.SSHClient()
     key = paramiko.AutoAddPolicy()
-    ssh.set_missing_host_key_policy(key)
-    ssh.connect('192.168.122.240', '22', 'root', 'docker', timeout=5)
-    stdin, stdout, stderr = ssh.exec_command(cmd)
+    _ssh.set_missing_host_key_policy(key)
+    _ssh.connect('192.168.122.240', '22', 'root', 'docker', timeout=5)
+    stdin, stdout, stderr = _ssh.exec_command(cmd)
     ss = ''
     for i in stdout.readlines():
         ss = ss + i
     ss = ss.split("\n")
     ss = ss[:-1]
+    _ssh.close()
     return ss
 
 
@@ -33,7 +34,7 @@ def getimages(client):
 
 
 def stopall(clinet):
-    for container in client.containers.list():
+    for container in clinet.containers.list():
         container.stop()
 
 
@@ -44,31 +45,45 @@ def stop(clinet, container):
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
+
+        self.write(self.get_argument("greeting", "<h2>docker images</h2>"))  ################
         ss = ssh("docker images")
         print(ss)
         i = 0
-
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
             print("---", line)
             i = i + 1
-    #
-    #         "<div>性别:
-	# 	<label><input type="radio" name="sex" value="男生">男生</label>
-	# 	<label><input type="radio" name="sex" value="女生">女生</label>
-	# </div>"
-            s="<p><input type='radio' name='images' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='images' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
 
-
-            # s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
-            #s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+        s="<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"
 
-        self.write(self.get_argument("greeting", "<p>Operation:<br><input type='text' name='operation'></p>"))
+        self.write(self.get_argument("greeting", "<h2>docker ps -a</h2>"))  ################
+        ss = ssh("docker ps -a")
+        print(ss)
+        i = 0
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        self.write(greeting)
+        ss = ss[1:]
+        for line in ss:
+            print("---", line)
+            i = i + 1
+            s = "<p><input type='radio' name='containers' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
+
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+        s = "<label><input type='radio' name='containersOperation' value='run'>" + "运行" + "</label>"
+
+
+
+
+
+        self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         self.write(self.get_argument("greeting", "</form>"))
 
 
