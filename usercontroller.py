@@ -54,14 +54,14 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = ss[1:]
         for line in ss:
             print("---", line)
-            s="<p><input type='radio' name='operation' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='operation' value='11'>" + "删除" + "</label>"))
+                                     "<label><input type='radio' name='op' value='del'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='operation' value='download'>" + "下载" + "</label>"))
+                                     "<label><input type='radio' name='op' value='download'>" + "下载" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
 
@@ -79,9 +79,9 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='operation' value='start'>" + "运行" + "</label>"))
+                                     "<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='operation' value='dell'>" + "删除" + "</label>"))
+                                     "<label><input type='radio' name='op' value='dell'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
 
@@ -98,7 +98,7 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='operation' value='stop'>" + "停止" + "</label>"))
+                                     "<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"))
 
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
@@ -133,10 +133,10 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        _operation = self.get_argument("operation")
-        print("---",_operation)
-        _id = self.get_argument("id")
-        print(_id)
+        operation = self.get_argument("op")
+        print("---",operation)
+        id = self.get_argument("id")
+        print(id)
 
         # if _operation=="images":
         #     _operation = self.get_argument("images")
