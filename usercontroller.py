@@ -95,10 +95,13 @@ class UserHandler(tornado.web.RequestHandler):
         s = ''
         # for i in images:
         #     s = s + str(i) + "\n"
-        
-        for i in range(4):
-            _operation = self.get_argument(str(i))
-            print(_operation)
+        _operation = self.get_argument("1")
+        print(_operation)
+        _operation = self.get_argument("2")
+        print(_operation)
+        # for i in range(4):
+        #     _operation = self.get_argument(str(i))
+        #     print(_operation)
 
         self.render("user.html",  result=_operation)
 
