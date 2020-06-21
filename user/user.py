@@ -76,7 +76,6 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = ss[1:]
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
-
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
@@ -134,8 +133,13 @@ class UserHandler(tornado.web.RequestHandler):
         operation = self.get_argument("op")
         id = self.get_argument("id")
 
-        if operation=="pull":
-            id=self.get_argument("pullname")
+        if operation=="run -d -it":
+            print(111)
+            with open('../data/data.txt', "r") as f:  # 设置文件对象
+                str = f.read()
+                print(str)
+            with open('../data/data.txt', 'w') as f:  # 设置文件对象
+                f.write(str+"\n"+id+" "+username)
 
         cmd = "docker " + operation + " " + id
         print(cmd)

@@ -20,9 +20,10 @@ def signin_form():
 @app.route('/signin', methods=['POST'])
 def signin():
     if request.form['username'] =='admin' and request.form['password'] =='1':
+        s = "?username=" + request.form['username'] + "&password=" + request.form['password']
         return '''
         <h3>Welcome admin!</h3>
-               <a href='http://10.17.18.101:10046/'>进入管理界面</a>
+               <a href='http://10.17.18.101:10046/'''+s+'''''>进入管理界面</a>
         '''
     if request.form['username'] =='a' and request.form['password'] =='1':
         s="?username="+request.form['username']+"&password="+request.form['password']
