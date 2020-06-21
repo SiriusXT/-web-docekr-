@@ -17,9 +17,9 @@ def ssh(cmd):
     ssh.set_missing_host_key_policy(key)
     ssh.connect('192.168.122.240','22','root','docker',timeout=5)
     stdin, stdout, stderr = ssh.exec_command(cmd)
-    s='\n'
+    s=''
     for i in stdout.readlines():
-        s=s+i
+        s=s+i+"\n"
     return s
     #return stdout
 
