@@ -138,9 +138,8 @@ class UserHandler(tornado.web.RequestHandler):
     def post(self):
         _operation = self.get_argument("submit")
         if _operation=="images":
-
-        _operation = self.get_argument("images")
-        print(_operation)
+            _operation = self.get_argument("images")
+            print(_operation)
         # for i in range(4):
         #     _operation = self.get_argument(str(i))
         #     print(_operation)
