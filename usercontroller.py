@@ -58,6 +58,8 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+
+        self.write(self.get_argument("greeting", "<p>Operation:<br><input type='text' name='operation'></p>"))
         self.write(self.get_argument("greeting", "</form>"))
 
 
@@ -85,15 +87,17 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        _operation = self.get_argument("sub")
+        _operation = self.get_argument("operation")
         print(_operation)
-        client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
-        images = client.images.list()
+        # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
+        # images = client.images.list()
         s = ''
-        for i in images:
-            s = s + str(i) + "\n"
+        # for i in images:
+        #     s = s + str(i) + "\n"
+        _operation = self.get_argument("operation")
+        print(_operation)
 
-        self.render("user.html",  dockerpsnum=len(images), dockerps=s)
+        self.render("user.html",  result=_operation)
 
 
 handlers = [
