@@ -17,9 +17,6 @@ def ssh(cmd):
     ssh.set_missing_host_key_policy(key)
     ssh.connect('192.168.122.240','22','root','docker',timeout=5)
     stdin, stdout, stderr = ssh.exec_command(cmd)
-    #print(stdout.readlines)
-    #for i in stdout.readlines():
-     #   print(i)
     s='\n'
     for i in stdout.readlines():
         s=s+i
@@ -29,10 +26,6 @@ def ssh(cmd):
 
 def getimages(client):
   images = client.images.list()
-  s = ''
-  #for i in images:
-   # s = s + str(i) + "\n"
-  #return s
   return images
 def stopall(clinet):
   for container in client.containers.list():
@@ -48,7 +41,9 @@ class IndexHandler(tornado.web.RequestHandler):
       i=0
       ss=ss.split("\n")
       print(ss)
-      for line in ss.readlines():
+      print("---------------")
+      for line in ss():
+
           if i==0:
               greeting = self.get_argument("greeting", line)
               self.write(greeting)
