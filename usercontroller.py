@@ -141,22 +141,71 @@ class UserHandler(tornado.web.RequestHandler):
         print(ss)
 
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
-        self.write(self.get_argument("greeting", "<h2>运行结果</h2>"))  ################
+        self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
         for line in ss:
             s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
 
+        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/'>返回首页</a>"))
 
+        self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))  ################
 
+        self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
+        ss = ssh("docker images")
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        self.write(greeting)
+        ss = ss[1:]
+        for line in ss:
+            s = "<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
 
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+        self.write(self.get_argument("greeting",
+                                     "<p>下载:<br><input type='text' name='operation'></p>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
+        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
+        self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
+        ss = ssh("docker ps -a")
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        self.write(greeting)
+        ss = ss[1:]
+        for line in ss:
+            s = "<p><input type='radio' name='id' value=" + line.split()[0] + ">" + line.replace(" ", "&nbsp") + "</p>"
 
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"))
+        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
+        self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
+        ss = ssh("docker ps")
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        self.write(greeting)
+        ss = ss[1:]
+        for line in ss:
+            s = "<p><input type='radio' name='id' value=" + line.split()[0] + ">" + line.replace(" ", "&nbsp") + "</p>"
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"))
 
+        self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-
-
+        self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+        self.write(self.get_argument("greeting", "</form>"))
 
 
         # if _operation=="images":
