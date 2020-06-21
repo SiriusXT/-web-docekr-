@@ -49,10 +49,11 @@ class IndexHandler(tornado.web.RequestHandler):
         password = self.get_argument("password")
         print("当前访问用户：",username,"密码：",password)
 
-        self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))
+        # self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
-
+        s = "<h2><input type='radio' name='username' value=" + username + ">" +"Welcome "+username + "</h2>"
+        self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
@@ -126,8 +127,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-
-
+        username = self.get_argument("username")
         operation = self.get_argument("op")
         id = self.get_argument("id")
 
