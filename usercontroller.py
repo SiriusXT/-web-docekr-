@@ -42,7 +42,7 @@ class IndexHandler(tornado.web.RequestHandler):
       print("---------------")
       i=0
       print("---------------")
-      for line in ss():
+      for line in ss:
           print(line)
           if i==0:
               greeting = self.get_argument("greeting", line)
