@@ -21,6 +21,7 @@ def ssh(cmd):
     stdin, stdout, stderr = _ssh.exec_command(cmd)
     ss = ''
     for i in stdout.readlines():
+        print("__stdout.readlines():__",i)
         ss = ss + i
     ss = ss.split("\n")
     ss = ss[:-1]
