@@ -134,9 +134,8 @@ class IndexHandler(tornado.web.RequestHandler):
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         _operation = self.get_argument("operation")
-        print(_operation)
+        print("---",_operation)
         _id = self.get_argument("id")
-
         print(_id)
 
         # if _operation=="images":
