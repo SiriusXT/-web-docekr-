@@ -54,8 +54,16 @@ class IndexHandler(tornado.web.RequestHandler):
         for line in ss:
             print("---", line)
             i = i + 1
+    #
+    #         "<div>性别:
+	# 	<label><input type="radio" name="sex" value="男生">男生</label>
+	# 	<label><input type="radio" name="sex" value="女生">女生</label>
+	# </div>"
+            s="<label><input type='radio' name='images' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</label>"
+
+
             # s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
-            s = "<p><input type='checkbox' name='" + str(i) + "' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
+            #s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
@@ -95,9 +103,7 @@ class UserHandler(tornado.web.RequestHandler):
         s = ''
         # for i in images:
         #     s = s + str(i) + "\n"
-        _operation = self.get_argument("1")
-        print(_operation)
-        _operation = self.get_argument("2")
+        _operation = self.get_argument("images")
         print(_operation)
         # for i in range(4):
         #     _operation = self.get_argument(str(i))
