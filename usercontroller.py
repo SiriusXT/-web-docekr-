@@ -54,7 +54,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = ss[1:]
         for line in ss:
             print("---", line)
-            s="<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='operation' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
