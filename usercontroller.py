@@ -49,8 +49,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<p>用户名:<input type='text' name='username'></p>"))
         self.write(self.get_argument("greeting", "<p>密码:<input type='text' name='password'></p>"))
-
-
+        self.write(self.get_argument("greeting", "<h3>提交任务校验密码</h3>"))  ################
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = ssh("docker images")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
