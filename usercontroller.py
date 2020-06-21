@@ -17,10 +17,12 @@ def ssh(cmd):
     ssh.set_missing_host_key_policy(key)
     ssh.connect('192.168.122.240','22','root','docker',timeout=5)
     stdin, stdout, stderr = ssh.exec_command(cmd)
-    s=''
+    ss=''
     for i in stdout.readlines():
-        s=s+i
-    return s
+        ss=ss+i
+    ss=ss.split("\n")
+    ss=ss[:-1]
+    return ss
     #return stdout
 
 
@@ -39,11 +41,9 @@ class IndexHandler(tornado.web.RequestHandler):
       print(ss)
       print("---------------")
       i=0
-      ss=ss.split("\n")
-      print(ss)
       print("---------------")
       for line in ss():
-
+          print(line)
           if i==0:
               greeting = self.get_argument("greeting", line)
               self.write(greeting)
