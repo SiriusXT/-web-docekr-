@@ -59,7 +59,7 @@ class IndexHandler(tornado.web.RequestHandler):
 	# 	<label><input type="radio" name="sex" value="男生">男生</label>
 	# 	<label><input type="radio" name="sex" value="女生">女生</label>
 	# </div>"
-            s="<label><input type='radio' name='images' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</label>"
+            s="<p><input type='radio' name='images' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
 
 
             # s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
