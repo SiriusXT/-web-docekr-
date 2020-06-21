@@ -23,7 +23,6 @@ def ssh(cmd):
     ss=ss.split("\n")
     ss=ss[:-1]
     return ss
-    #return stdout
 
 
 def getimages(client):
@@ -42,12 +41,11 @@ class IndexHandler(tornado.web.RequestHandler):
       print("---------------")
       i=0
       print("---------------")
+      greeting = self.get_argument("greeting", ss[0])
+      self.write(greeting)
+      ss = ss[1:]
       for line in ss:
-          print(line)
-          if i==0:
-              greeting = self.get_argument("greeting", line)
-              self.write(greeting)
-              continue
+          print("---",line)
           i=i+1
           s="<p><input type='checkbox' name='category' value="+str(i)+"/>"+line+"</p>"
           greeting = self.get_argument("greeting", s)
@@ -78,16 +76,12 @@ class UserHandler(tornado.web.RequestHandler):
     _operation= self.get_argument("operation")
     print(_operation)
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
-    #client = docker.DockerClient(base_url='tcp://192.168.122.242:5555')
     images = client.images.list()
-    #self.render("user.html",username=images[0],email=user_email,website=user_website,language=user_language)
-
     s=''
     for i in images:
         s=s+str(i)+"\n"
 
     self.render("user.html",username=user_name,dockerpsnum=len(images),dockerps=s)
-
 
 
 handlers = [
