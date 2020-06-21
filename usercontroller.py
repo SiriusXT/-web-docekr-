@@ -62,7 +62,7 @@ class IndexHandler(tornado.web.RequestHandler):
                                      "<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='imagesOperation' value='download'>" + "下载" + "</label>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='images'>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='submit1'>"))
 
 
 
@@ -82,7 +82,7 @@ class IndexHandler(tornado.web.RequestHandler):
                                      "<label><input type='radio' name='containersOperation' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='containersOperation' value='del'>" + "删除" + "</label>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='containers'>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='submit2'>"))
 
 
         self.write(self.get_argument("greeting", "<h2>docker ps</h2>"))  ################
@@ -100,7 +100,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='containersOperation' value='stop'>" + "停止" + "</label>"))
 
-        self.write(self.get_argument("sub", "<input type='submit' value='containers'>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='submit3'>"))
 
 
 
@@ -110,8 +110,6 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         self.write(self.get_argument("greeting", "</form>"))
-
-
 
     # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
     # images=getimages(client)
@@ -133,7 +131,6 @@ class IndexHandler(tornado.web.RequestHandler):
 
     # self.render("index.html",dockerps=client.containers.list(),dockerimages=ssh("docker images"))
 
-
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         _operation = self.get_argument("submit")
@@ -144,7 +141,7 @@ class UserHandler(tornado.web.RequestHandler):
         #     _operation = self.get_argument(str(i))
         #     print(_operation)
 
-        self.render("user.html",  result=_operation)
+        self.render("user.html",  result="1")
 
 
 handlers = [
