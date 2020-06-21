@@ -87,14 +87,14 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        _operation = self.get_argument("operation")
-        print(_operation)
+        # _operation = self.get_argument("operation")
+        # print(_operation)
         # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
         # images = client.images.list()
         s = ''
         # for i in images:
         #     s = s + str(i) + "\n"
-        _operation = self.get_argument("operation")
+        _operation = self.get_argument("category")
         print(_operation)
 
         self.render("user.html",  result=_operation)
