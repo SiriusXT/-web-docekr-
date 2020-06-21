@@ -62,7 +62,7 @@ class IndexHandler(tornado.web.RequestHandler):
                                      "<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='imagesOperation' value='download'>" + "下载" + "</label>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+        # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
 
 
 
@@ -82,7 +82,7 @@ class IndexHandler(tornado.web.RequestHandler):
                                      "<label><input type='radio' name='containersOperation' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='containersOperation' value='del'>" + "删除" + "</label>"))
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+        # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
 
 
         self.write(self.get_argument("greeting", "<h2>docker ps</h2>"))  ################
@@ -100,7 +100,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='containersOperation' value='stop'>" + "停止" + "</label>"))
 
-        self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
+        # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
 
 
 
