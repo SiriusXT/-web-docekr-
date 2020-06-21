@@ -39,14 +39,14 @@ class IndexHandler(tornado.web.RequestHandler):
       ss=ssh("docker images")
       print(ss)
       i=0
-      ss.replace(" ", "&nbsp&nbsp|&nbsp&nbsp");
-      greeting = self.get_argument("greeting", ss[0])
+
+      greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp&nbsp|&nbsp&nbsp"))
       self.write(greeting)
       ss = ss[1:]
       for line in ss:
           print("---",line)
           i=i+1
-          s="<p><input type='checkbox' name='category' value="+str(i)+"/>"+line+"</p>"
+          s="<p><input type='checkbox' name='category' value="+str(i).replace(" ", "&nbsp&nbsp|&nbsp&nbsp")+"/>"+line+"</p>"
           greeting = self.get_argument("greeting", s)
           self.write(greeting)
 
