@@ -46,7 +46,7 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
-        self.write(self.get_argument("greeting", "<h2>docker images</h2>"))  ################
+        self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = ssh("docker images")
         print(ss)
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
@@ -66,7 +66,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 
 
-        self.write(self.get_argument("greeting", "<h2>docker ps -a</h2>"))  ################
+        self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
         ss = ssh("docker ps -a")
         print(ss)
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
@@ -85,7 +85,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
 
-        self.write(self.get_argument("greeting", "<h2>docker ps</h2>"))  ################
+        self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
         ss = ssh("docker ps")
         print(ss)
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
@@ -133,10 +133,12 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        _id = self.get_argument("id")
         _operation = self.get_argument("operation")
-        print(_id)
         print(_operation)
+        _id = self.get_argument("id")
+
+        print(_id)
+
         # if _operation=="images":
         #     _operation = self.get_argument("images")
         #     print(_operation)
