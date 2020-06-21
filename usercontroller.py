@@ -136,8 +136,28 @@ class UserHandler(tornado.web.RequestHandler):
         id = self.get_argument("id")
         cmd="docker "+operation+" "+id
         print(cmd)
-        result=ssh(cmd)
-        print(result)
+        ss=ssh(cmd)
+        print(ss)
+
+        self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
+        self.write(self.get_argument("greeting", "<h2>运行结果</h2>"))  ################
+        for line in ss:
+            s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+
+
+
+
+
+
+
+
+
+
+
+
+
         # if _operation=="images":
         #     _operation = self.get_argument("images")
         #     print(_operation)
@@ -145,7 +165,7 @@ class UserHandler(tornado.web.RequestHandler):
         #     _operation = self.get_argument(str(i))
         #     print(_operation)
 
-        self.render("user.html",  result=result)
+        # self.render("user.html",  result=result)
 
 
 handlers = [
