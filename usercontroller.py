@@ -38,9 +38,8 @@ class IndexHandler(tornado.web.RequestHandler):
   def get(self):
       ss=ssh("docker images")
       print(ss)
-      print("---------------")
       i=0
-      print("---------------")
+      ss.replace(" ", "&nbsp&nbsp|&nbsp&nbsp");
       greeting = self.get_argument("greeting", ss[0])
       self.write(greeting)
       ss = ss[1:]
