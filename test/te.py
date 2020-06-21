@@ -14,8 +14,10 @@ import paramiko
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
-        user = self.get_argument('user')
-        print(user)
+        username = self.get_argument('username')
+        print(username)
+        password = self.get_argument('password')
+        print(password)
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))  ################
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("submit", "<input type='submit' value='submit'>"))
