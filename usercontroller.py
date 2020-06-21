@@ -54,7 +54,8 @@ class IndexHandler(tornado.web.RequestHandler):
         for line in ss:
             print("---", line)
             i = i + 1
-            s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
+            # s = "<p><input type='checkbox' name='category' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
+            s = "<p><input type='checkbox' name='" + str(i) + "' value=" + str(i) + "/>" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
@@ -94,8 +95,10 @@ class UserHandler(tornado.web.RequestHandler):
         s = ''
         # for i in images:
         #     s = s + str(i) + "\n"
-        _operation = self.get_argument("category")
-        print(_operation)
+        ss = ssh("docker images")
+        for i in range(len(ss)-1):
+            _operation = self.get_argument(str(i))
+            print(_operation)
 
         self.render("user.html",  result=_operation)
 
