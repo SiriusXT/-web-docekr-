@@ -134,9 +134,9 @@ class IndexHandler(tornado.web.RequestHandler):
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         _operation = self.get_argument("submit1")
-        if _operation=="images":
-            _operation = self.get_argument("images")
-            print(_operation)
+        # if _operation=="images":
+        #     _operation = self.get_argument("images")
+        #     print(_operation)
         # for i in range(4):
         #     _operation = self.get_argument(str(i))
         #     print(_operation)
