@@ -86,7 +86,7 @@ class IndexHandler(tornado.web.RequestHandler):
         temp=[]
         for ss_ in ss:
             for data_ in data:
-                if username==data_[1] and ss_.split()[0]==data_[0]:
+                if data_!=[] and ss_!=[] and ss_.split()[0]==data_[0] and username==data_[1] :
                     temp.append()
         ss=temp
 
@@ -108,11 +108,11 @@ class IndexHandler(tornado.web.RequestHandler):
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
-
+######################################
         temp = []
         for ss_ in ss:
             for data_ in data:
-                if username == data_[1] and ss_.split()[0] == data_[0]:
+                if data_ != [] and ss_ != [] and ss_.split()[0] == data_[0] and username == data_[1]:
                     temp.append()
         ss = temp
 
