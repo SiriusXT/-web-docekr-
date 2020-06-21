@@ -8,7 +8,7 @@ import tornado.options
 import tornado.web
 from tornado.options import define, options
 
-define("port", default=8008, help="run on the given port", type=int)
+define("port", default=8006, help="run on the given port", type=int)
 
 import paramiko
 
