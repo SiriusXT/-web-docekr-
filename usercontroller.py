@@ -60,7 +60,11 @@ class IndexHandler(tornado.web.RequestHandler):
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
-        s="<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"
+        self.write(self.get_argument("greeting",
+                                     "<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "<label><input type='radio' name='imagesOperation' value='del'>" + "下载" + "</label>"))
+
 
         self.write(self.get_argument("greeting", "<h2>docker ps -a</h2>"))  ################
         ss = ssh("docker ps -a")
@@ -76,7 +80,39 @@ class IndexHandler(tornado.web.RequestHandler):
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
-        s = "<label><input type='radio' name='containersOperation' value='run'>" + "运行" + "</label>"
+        self.write(self.get_argument("greeting",
+                                     "<label><input type='radio' name='containersOperation' value='run'>" + "运行" + "</label>"))
+        self.write(self.get_argument("greeting",
+                                     "<label><input type='radio' name='containersOperation' value='run'>" + "删除" + "</label>"))
+
+
+        self.write(self.get_argument("greeting", "<h2>docker ps</h2>"))  ################
+        ss = ssh("docker ps")
+        print(ss)
+        i = 0
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        self.write(greeting)
+        ss = ss[1:]
+        for line in ss:
+            print("---", line)
+            i = i + 1
+            s = "<p><input type='radio' name='containers' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
+
+            greeting = self.get_argument("greeting", s)
+            self.write(greeting)
+        self.write(self.get_argument("greeting",
+                                     "<label><input type='radio' name='containersOperation' value='run'>" + "停止" + "</label>"))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
