@@ -21,7 +21,7 @@ def sshdocker(cmd):
     stdin, stdout, stderr = _ssh.exec_command(cmd)
     ss = ''
     for i in stdout.readlines():
-        print("__stdout.readlines():__",i)
+        #print("__stdout.readlines():__",i)
         ss = ss + i
     ss = ss.split("\n")
     ss = ss[:-1]
@@ -69,6 +69,12 @@ class IndexHandler(tornado.web.RequestHandler):
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
+        with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+            data = f.read()
+        data=data.split("\n")
+        for i in range(len(data)):
+            data[i]=data[i].split()
+        print(data)
 
 
         self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
@@ -76,6 +82,14 @@ class IndexHandler(tornado.web.RequestHandler):
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
+        ######
+        temp=[]
+        for ss_ in ss:
+            for data_ in data:
+                if username==data_[1] and ss_.split()[0]==data_[0]:
+                    temp.append()
+        ss=temp
+
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
@@ -94,6 +108,14 @@ class IndexHandler(tornado.web.RequestHandler):
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
+
+        temp = []
+        for ss_ in ss:
+            for data_ in data:
+                if username == data_[1] and ss_.split()[0] == data_[0]:
+                    temp.append()
+        ss = temp
+
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
@@ -135,7 +157,7 @@ class UserHandler(tornado.web.RequestHandler):
             print(111)
             with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 str = f.read()
-                print(str)
+                #print(str)
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(str+"\n"+id+" "+username)
 
