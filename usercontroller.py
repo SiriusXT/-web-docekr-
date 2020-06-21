@@ -49,69 +49,58 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting", "<h2>docker images</h2>"))  ################
         ss = ssh("docker images")
         print(ss)
-        i = 0
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
             print("---", line)
-            i = i + 1
-            s="<p><input type='radio' name='images' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='images' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
                                      "<label><input type='radio' name='imagesOperation' value='del'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='imagesOperation' value='del'>" + "下载" + "</label>"))
+                                     "<label><input type='radio' name='imagesOperation' value='download'>" + "下载" + "</label>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='images'>"))
+
 
 
         self.write(self.get_argument("greeting", "<h2>docker ps -a</h2>"))  ################
         ss = ssh("docker ps -a")
         print(ss)
-        i = 0
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
             print("---", line)
-            i = i + 1
-            s = "<p><input type='radio' name='containers' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s = "<p><input type='radio' name='containers' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='containersOperation' value='run'>" + "运行" + "</label>"))
+                                     "<label><input type='radio' name='containersOperation' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='containersOperation' value='run'>" + "删除" + "</label>"))
+                                     "<label><input type='radio' name='containersOperation' value='del'>" + "删除" + "</label>"))
+        self.write(self.get_argument("sub", "<input type='submit' value='containers'>"))
 
 
         self.write(self.get_argument("greeting", "<h2>docker ps</h2>"))  ################
         ss = ssh("docker ps")
         print(ss)
-        i = 0
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
             print("---", line)
-            i = i + 1
-            s = "<p><input type='radio' name='containers' value=" + str(i) + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s = "<p><input type='radio' name='containers' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<label><input type='radio' name='containersOperation' value='run'>" + "停止" + "</label>"))
+                                     "<label><input type='radio' name='containersOperation' value='stop'>" + "停止" + "</label>"))
 
-
-
-
-
-
-
-
-
-
+        self.write(self.get_argument("sub", "<input type='submit' value='containers'>"))
 
 
 
@@ -147,13 +136,9 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
-        # _operation = self.get_argument("operation")
-        # print(_operation)
-        # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
-        # images = client.images.list()
-        s = ''
-        # for i in images:
-        #     s = s + str(i) + "\n"
+        _operation = self.get_argument("submit")
+        if _operation=="images":
+
         _operation = self.get_argument("images")
         print(_operation)
         # for i in range(4):
