@@ -148,7 +148,9 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-        self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"))
+        # self.write(self.get_argument("greeting", "<p>高级功能:<br><input type='text' name='operation'></p>"))
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         self.write(self.get_argument("greeting", "</form>"))
 
@@ -168,6 +170,8 @@ class UserHandler(tornado.web.RequestHandler):
         if operation == "run -d -it":
             cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
         cmd = "docker " + operation + " " + id
+        if operation=="top":
+            cmd=self.get_argument("operation")
         print(cmd)
 
         ss=sshdocker(cmd)
