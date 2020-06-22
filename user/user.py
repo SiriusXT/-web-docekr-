@@ -185,6 +185,7 @@ class UserHandler(tornado.web.RequestHandler):
             for i in range(len(data)):
                 data_[i] = data_[i].split()
             for i in data:
+                print("---------------",i)
                 if data_[0][:12]==id[0:12]:
                     1
                 else:
@@ -198,7 +199,7 @@ class UserHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
 
-        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/?username="+username+"&password="+password+"'>返回首页</a>"))
+        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10047/?username="+username+"&password="+password+"'>返回首页</a>"))
 
 
 handlers = [
