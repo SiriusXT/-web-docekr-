@@ -59,7 +59,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
-        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username + "</h2>"
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
         s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
@@ -75,15 +75,15 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<p>参数:<br><input type='text' name='pullname'></p>"))
+                                     "<p>参数:<br><input type='text' name='arg'></p>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
-        self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
+        # self.write(self.get_argument("greeting",
+        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
         with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
@@ -103,6 +103,8 @@ class IndexHandler(tornado.web.RequestHandler):
             for data_ in data:
                 if data_ != [] and ss_ != [] and ss_.split()[0][0:10]==data_[0][0:10] :
                     temp.append(ss_+"     "+data_[1])
+                elif data_ != [] and ss_ != []  :
+                    temp.append(ss_+"     "+"unknow")
         ss = temp
         ######################################
 
@@ -160,8 +162,9 @@ class UserHandler(tornado.web.RequestHandler):
         id = self.get_argument("id")
 
         if operation=="pull":
-            id=self.get_argument("pullname")
-
+            id=self.get_argument("arg")
+        if operation == "run -d -it":
+            cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
         cmd = "docker " + operation + " " + id
         print(cmd)
 
@@ -191,7 +194,7 @@ class UserHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
 
-        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/?username="+username+"&password="+password+"'>返回首页</a>"))
+        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
 
 
 
