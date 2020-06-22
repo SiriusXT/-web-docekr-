@@ -183,9 +183,9 @@ class UserHandler(tornado.web.RequestHandler):
                 data_[i] = data_[i].split()
             for i in data:
                 if data_[0][:12]==id[0:12]:
-                    temp=temp+i
+                    temp=temp+i+"\n"
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
-                f.write(data)
+                f.write(temp)
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
         for line in ss:
