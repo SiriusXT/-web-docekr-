@@ -52,6 +52,8 @@ class IndexHandler(tornado.web.RequestHandler):
         sql = " select * from user where username = '" + username + "' "
         cursor.execute(sql)
         data = cursor.fetchone()
+        self.write(self.get_argument("greeting", "Docker"))
+
         if data[1] != password or data[2]!="admin" :
             self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
             return
@@ -62,7 +64,6 @@ class IndexHandler(tornado.web.RequestHandler):
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
         # s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
-        self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
@@ -70,7 +71,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
-            s="<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='id' value=" + line.split()[2] + "checked>" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)

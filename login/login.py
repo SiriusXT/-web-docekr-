@@ -5,11 +5,12 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return '<h1>Home</h1>'
+    return "<h1>Home</h1><a href='http://10.17.18.101:10045/signin'>sign in</a>"
 
 @app.route('/signin', methods=['GET'])
 def signin_form():
     return '''<form action="/signin" method="post">
+            <h2>Docker</h2>
             <p><input name="username" type="text"></p>
             <p><input name="password" type="password"></p>
             <p><input type="submit" value="Sign In"></p>
