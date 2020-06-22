@@ -164,14 +164,9 @@ class UserHandler(tornado.web.RequestHandler):
             print(data)
             temp=""
             data = data.split("\n")
-            # data_=data  #变成list了
-            # for i in range(len(data)):
-            #     data_[i] = data_[i].split()
             for i in data:
-                print("---------------",i)
                 if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
                     temp=temp+i+"\n"
-                    print("+++++++++++++++++ ",temp)
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################

@@ -97,7 +97,7 @@ class IndexHandler(tornado.web.RequestHandler):
         temp = []
         for ss_ in ss:
             for data_ in data:
-                if data_ != [] and ss_ != [] :
+                if data_ != [] and ss_ != [] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1]:
                     temp.append(ss_+"     "+data_[1])
         ss = temp
         ######################################
@@ -126,8 +126,8 @@ class IndexHandler(tornado.web.RequestHandler):
         temp = []
         for ss_ in ss:
             for data_ in data:
-                if data_ != [] and ss_ != []:
-                    temp.append(ss_ + "     " + username)
+                if data_ != [] and ss_ != [] and ss_.split()[0][0:10] == data_[0][0:10] and username == data_[1]:
+                    temp.append(ss_ + "     " + data_[1])
         ss = temp
         ######################################
 
@@ -151,10 +151,8 @@ class UserHandler(tornado.web.RequestHandler):
     def post(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
-        print(username)
-        print(password)
-
         operation = self.get_argument("op")
+
         id = self.get_argument("id")
 
         if operation=="pull":
@@ -163,8 +161,24 @@ class UserHandler(tornado.web.RequestHandler):
         cmd = "docker " + operation + " " + id
         print(cmd)
 
-
         ss=sshdocker(cmd)
+
+        if operation=="run -d -it":
+            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+                str = f.read()
+            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+                f.write(str+"\n"+ss[0]+" "+username)
+        if operation=="rm":
+            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+                data = f.read()
+            print(data)
+            temp=""
+            data = data.split("\n")
+            for i in data:
+                if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
+                    temp=temp+i+"\n"
+            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+                f.write(temp)
 
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
