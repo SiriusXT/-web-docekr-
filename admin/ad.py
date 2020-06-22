@@ -52,7 +52,7 @@ class IndexHandler(tornado.web.RequestHandler):
         sql = " select * from user where username = '" + username + "' "
         cursor.execute(sql)
         data = cursor.fetchone()
-        self.write(self.get_argument("greeting", sshdocker("docker -v")))
+        self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
 
         if data[1] != password or data[2]!="admin" :
             self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
@@ -82,7 +82,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it' >" + "创建容器" + "</label>"))
         # self.write(self.get_argument("greeting",
         #                              "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
