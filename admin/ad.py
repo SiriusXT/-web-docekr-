@@ -71,11 +71,11 @@ class IndexHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
         self.write(self.get_argument("greeting",
-                                     "<p>下载:<br><input type='text' name='pullname'></p>"))
+                                     "<p>参数:<br><input type='text' name='pullname'></p>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "参数" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
         self.write(self.get_argument("greeting",
@@ -90,7 +90,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
         ss = sshdocker("docker ps -a")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user')
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user')
         self.write(greeting)
         ss = ss[1:]
         ######################################
@@ -98,7 +98,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for ss_ in ss:
             for data_ in data:
                 if data_ != [] and ss_ != [] :
-                    temp.append(ss_+"     "+username)
+                    temp.append(ss_+"     "+data_[1])
         ss = temp
         ######################################
 
