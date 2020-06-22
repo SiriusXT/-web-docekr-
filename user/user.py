@@ -162,10 +162,11 @@ class UserHandler(tornado.web.RequestHandler):
         ss=sshdocker(cmd)
 
         if operation=="run -d -it":
+            print("_________________",ss)
             with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 str = f.read()
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
-                f.write(str+"\n"+ss+" "+username)
+                f.write(str+"\n"+ss[0]+" "+username)
 
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
