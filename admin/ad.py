@@ -61,7 +61,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
-        s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
+        # s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
@@ -100,10 +100,12 @@ class IndexHandler(tornado.web.RequestHandler):
         ######################################
         temp = []
         for ss_ in ss:
+            f=0
             for data_ in data:
                 if data_ != [] and ss_ != [] and ss_.split()[0][0:10]==data_[0][0:10] :
                     temp.append(ss_+"     "+data_[1])
-                elif data_ != [] and ss_ != []  :
+                    f=1
+            if f==0 and ss_ != []  :
                     temp.append(ss_+"     "+"unknow")
         ss = temp
         ######################################
