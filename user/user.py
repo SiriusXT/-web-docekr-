@@ -74,8 +74,6 @@ class IndexHandler(tornado.web.RequestHandler):
         data=data.split("\n")
         for i in range(len(data)):
             data[i]=data[i].split()
-        print(data)
-
 
         self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
         ss = sshdocker("docker ps -a")
@@ -83,6 +81,8 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         ######
+        print(data)
+        print(ss)
         temp=[]
         for ss_ in ss:
             for data_ in data:
