@@ -47,7 +47,6 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
-
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         cursor = db.cursor()
         sql = " select * from user where username = '" + username + "' "
@@ -59,6 +58,11 @@ class IndexHandler(tornado.web.RequestHandler):
             ################
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
+
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username + "</h2>"
+        self.write(self.get_argument("greeting", s))
+        s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
+        self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
