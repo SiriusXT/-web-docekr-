@@ -90,7 +90,6 @@ class IndexHandler(tornado.web.RequestHandler):
             for data_ in data:
                 #print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
-
                     temp.append(ss_)
         ss=temp
         ######################################
@@ -120,7 +119,6 @@ class IndexHandler(tornado.web.RequestHandler):
             for data_ in data:
                 print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
-
                     temp.append(ss_)
         ss=temp
         ######################################
@@ -170,7 +168,6 @@ class UserHandler(tornado.web.RequestHandler):
         ss=sshdocker(cmd)
 
         if operation=="run -d -it":
-            print("_________________",ss)
             with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 str = f.read()
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
