@@ -176,9 +176,9 @@ class UserHandler(tornado.web.RequestHandler):
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(str+"\n"+ss[0]+" "+username)
         if operation=="rm":
-            print("_________________",ss)
             with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 data = f.read()
+            print(data)
             temp=""
             data = data.split("\n")
             # data_=data  #变成list了
@@ -188,6 +188,7 @@ class UserHandler(tornado.web.RequestHandler):
                 print("---------------",i)
                 if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
                     temp=temp+i[0]+" "+i[1]+"\n"
+                    print("+++++++++++++++++ ",temp)
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
