@@ -63,7 +63,6 @@ class IndexHandler(tornado.web.RequestHandler):
 
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
-        # s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
@@ -71,7 +70,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
-            s="<p><input type='radio' name='id' value=" + line.split()[2] + "checked>" + line.replace(" ", "&nbsp") + "</p>"
+            s="<p><input type='radio' name='id' value=" + line.split()[2] + " checked>" + line.replace(" ", "&nbsp") + "</p>"
 
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
@@ -82,7 +81,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it' >" + "创建容器" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
         # self.write(self.get_argument("greeting",
         #                              "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
@@ -137,7 +136,10 @@ class IndexHandler(tornado.web.RequestHandler):
             for data_ in data:
                 if data_ != [] and ss_ != [] and ss_.split()[0][0:10] == data_[0][0:10] :
                     temp.append(ss_ + "     " + data_[1])
+                if f == 0 and ss_ != []:
+                    temp.append(ss_ + "     " + "unknow")
         ss = temp
+
         ######################################
 
         for line in ss:
@@ -165,7 +167,7 @@ class UserHandler(tornado.web.RequestHandler):
         operation = self.get_argument("op")
 
         id = self.get_argument("id")
-
+        print(id)
         if operation=="pull":
             id=self.get_argument("arg")
         if operation == "run -d -it":
@@ -173,6 +175,7 @@ class UserHandler(tornado.web.RequestHandler):
         cmd = "docker " + operation + " " + id
         if operation=="top":
             cmd=self.get_argument("operation")
+        print(id)
         print(cmd)
 
         ss=sshdocker(cmd)
