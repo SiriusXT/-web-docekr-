@@ -99,7 +99,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='rm'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
@@ -172,7 +172,20 @@ class UserHandler(tornado.web.RequestHandler):
                 str = f.read()
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(str+"\n"+ss[0]+" "+username)
-
+        if operation=="rm":
+            print("_________________",ss)
+            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+                data = f.read()
+            temp=""
+            data = data.split("\n")
+            data_=data  #变成list了
+            for i in range(len(data)):
+                data_[i] = data_[i].split()
+            for i in data:
+                if data_[0][:12]==id[0:12]:
+                    temp=temp+i
+            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+                f.write(data)
         self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
         for line in ss:
