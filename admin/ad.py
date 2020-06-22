@@ -52,7 +52,7 @@ class IndexHandler(tornado.web.RequestHandler):
         sql = " select * from user where username = '" + username + "' "
         cursor.execute(sql)
         data = cursor.fetchone()
-        self.write(self.get_argument("greeting", "Docker"))
+        self.write(self.get_argument("greeting", sshdocker("docker -v")))
 
         if data[1] != password or data[2]!="admin" :
             self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))

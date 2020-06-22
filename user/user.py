@@ -47,7 +47,7 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
-        self.write(self.get_argument("greeting", "Docker"))
+        self.write(self.get_argument("greeting", sshdocker("docker -v")))
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         cursor = db.cursor()
         sql = " select * from user where username = '" + username + "' "
