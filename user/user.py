@@ -164,7 +164,6 @@ class UserHandler(tornado.web.RequestHandler):
         cmd = "docker " + operation + " " + id
         print(cmd)
 
-
         ss=sshdocker(cmd)
 
         if operation=="run -d -it":
@@ -184,7 +183,7 @@ class UserHandler(tornado.web.RequestHandler):
             for i in data:
                 print("---------------",i)
                 if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
-                    temp=temp+i[0]+" "+i[1]+"\n"
+                    temp=temp+i+"\n"
                     print("+++++++++++++++++ ",temp)
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
