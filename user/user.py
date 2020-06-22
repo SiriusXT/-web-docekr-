@@ -75,9 +75,9 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = ss[1:]
         for line in ss:
             self.write(self.get_argument("greeting", "<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"))
-
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "参数" + "</label>"))
+                                     "<p>参数:<br><input type='text' name='pullname'></p>"))
+        # self.write(self.get_argument("greeting","&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "参数" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
