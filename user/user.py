@@ -74,15 +74,15 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         for line in ss:
-            s="<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"
-            self.write(self.get_argument("greeting", s))
+            self.write(self.get_argument("greeting", "<p><input type='radio' name='id' value=" + line.split()[2] + ">" + line.replace(" ", "&nbsp") + "</p>"))
 
-
+        self.write(self.get_argument("greeting",
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "参数" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-        with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+        with open('/var/www/py/py/data/data.txt', "r") as f:
             data = f.read()
         data=data.split("\n")
         for i in range(len(data)):
@@ -94,12 +94,9 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         ######################################
-        #print(data)
-        #print(ss)
         temp=[]
         for ss_ in ss:
             for data_ in data:
-                #print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
                     temp.append(ss_)
         ss=temp
@@ -122,9 +119,7 @@ class IndexHandler(tornado.web.RequestHandler):
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
         self.write(greeting)
         ss = ss[1:]
-######################################
-        print(data)
-        print(ss)
+        ######################################
         temp=[]
         for ss_ in ss:
             for data_ in data:
@@ -145,25 +140,6 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "</form>"))
 
-    # client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
-    # images=getimages(client)
-    # print(images)
-    # for i in range(len(images)):
-
-    # print("---------"+str(images[i]))
-    # ss=ssh("docker images")
-    # print(ss)
-    # for i in ss.readlines():
-    # print (i)
-    # for j in ss:
-    #   print ("------",i)
-    #  s="<p><input type='checkbox' name='category' value="+str(1)+"/>"+i+"</p>"
-    # greeting = self.get_argument("greeting", s)
-    # self.write(greeting)
-    # greeting = self.get_argument('greeting', '<p><input type="checkbox" name="category" value="今日话题" />今日话题 </p> ')
-    # self.write(greeting)
-
-    # self.render("index.html",dockerps=client.containers.list(),dockerimages=ssh("docker images"))
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):

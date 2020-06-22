@@ -75,20 +75,34 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
         self.write(self.get_argument("greeting",
-                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
+                                     "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "参数" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
         self.write(self.get_argument("greeting",
                                      "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-
+        with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
+            data = f.read()
+        data=data.split("\n")
+        for i in range(len(data)):
+            data[i]=data[i].split()
 
         self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
         ss = sshdocker("docker ps -a")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user')
         self.write(greeting)
         ss = ss[1:]
+        ######################################
+        temp = []
+        for ss_ in ss:
+            for data_ in data:
+                if data_ != [] and ss_ != [] :
+                    temp.append(ss_+"     "+username)
+        ss = temp
+        ######################################
+
+
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
 
@@ -105,9 +119,18 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
         ss = sshdocker("docker ps")
-        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
+        greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user')
         self.write(greeting)
         ss = ss[1:]
+        ######################################
+        temp = []
+        for ss_ in ss:
+            for data_ in data:
+                if data_ != [] and ss_ != []:
+                    temp.append(ss_ + "     " + username)
+        ss = temp
+        ######################################
+
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
             greeting = self.get_argument("greeting", s)
@@ -117,34 +140,12 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
 
-
-
-
-
-
         self.write(self.get_argument("greeting", "<p>下载:<br><input type='text' name='operation'></p>"))
         self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         self.write(self.get_argument("greeting", "</form>"))
 
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
-    # images=getimages(client)
-    # print(images)
-    # for i in range(len(images)):
 
-    # print("---------"+str(images[i]))
-    # ss=ssh("docker images")
-    # print(ss)
-    # for i in ss.readlines():
-    # print (i)
-    # for j in ss:
-    #   print ("------",i)
-    #  s="<p><input type='checkbox' name='category' value="+str(1)+"/>"+i+"</p>"
-    # greeting = self.get_argument("greeting", s)
-    # self.write(greeting)
-    # greeting = self.get_argument('greeting', '<p><input type="checkbox" name="category" value="今日话题" />今日话题 </p> ')
-    # self.write(greeting)
-
-    # self.render("index.html",dockerps=client.containers.list(),dockerimages=ssh("docker images"))
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
