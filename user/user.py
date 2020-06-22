@@ -181,12 +181,12 @@ class UserHandler(tornado.web.RequestHandler):
                 data = f.read()
             temp=""
             data = data.split("\n")
-            data_=data  #变成list了
-            for i in range(len(data)):
-                data_[i] = data_[i].split()
+            # data_=data  #变成list了
+            # for i in range(len(data)):
+            #     data_[i] = data_[i].split()
             for i in data:
                 print("---------------",i)
-                if i!=[] and data_[i][:12]!=id[:12]:
+                if i!=[] and i.split()[0][:12]!=id[:12]:
                     temp=temp+i[0]+" "+i[1]+"\n"
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
