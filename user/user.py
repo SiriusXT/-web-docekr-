@@ -7,7 +7,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 from tornado.options import define, options
-
+import pymysql
 define("port", default=8007, help="run on the given port", type=int)
 
 import paramiko
@@ -47,6 +47,17 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
+
+        db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
+        cursor = db.cursor()
+        sql = " select * from user where username = '" + username + "' "
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        if data[1]!=password:
+            self.write(self.get_argument("greeting", "<h2>非法访问</h2>"))
+            return
+            ################
+
         print("当前访问用户：",username,"密码：",password)
 
         # self.write(self.get_argument("greeting", "<h2>Welcome "+username+"</h2>"))

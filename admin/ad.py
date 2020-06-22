@@ -7,7 +7,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 from tornado.options import define, options
-
+import pymysql
 define("port", default=8006, help="run on the given port", type=int)
 
 import paramiko
@@ -45,11 +45,21 @@ def stop(clinet, container):
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
+        username = self.get_argument("username")
+        password = self.get_argument("password")
+
+        db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
+        cursor = db.cursor()
+        sql = " select * from user where username = '" + username + "' "
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        if data[1] != password or data[2]!="admin" :
+            self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
+            return
+            ################
+
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
-        self.write(self.get_argument("greeting", "<p>用户名:<input type='text' name='username'></p>"))
-        self.write(self.get_argument("greeting", "<p>密码:<input type='text' name='password'></p>"))
-        self.write(self.get_argument("greeting", "<h3>提交任务校验密码</h3>"))  ################
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
         greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
@@ -162,7 +172,7 @@ class UserHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
 
-        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/'>返回首页</a>"))
+        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/?username="+username+"&password="+password+"'>返回首页</a>"))
 
 
 

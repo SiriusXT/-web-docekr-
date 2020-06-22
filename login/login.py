@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-
+import pymysql
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -19,20 +19,29 @@ def signin_form():
 
 @app.route('/signin', methods=['POST'])
 def signin():
-    if request.form['username'] =='admin' and request.form['password'] =='1':
-        s = "?username=" + request.form['username'] + "&password=" + request.form['password']
+    username=request.form['username']
+    password=request.form['password']
+    db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
+    cursor = db.cursor()
+    sql = " select * from user where username = '"+username+"' "
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    if data[1]!=password:
+        return '<h3>Bad username or password!</h3>'
+    if data[2] =='admin' :
+        s = "?username=" + username + "&password=" + password
         return '''
         <h3>Welcome admin!</h3>
-               <a href='http://10.17.18.101:10046/'''+s+'''''>进入管理界面</a>
+               <a href='http://10.17.18.101:10046/'''+s+'''''>进入后台界面</a>
         '''
-    if request.form['username'] =='a' and request.form['password'] =='1':
-        s="?username="+request.form['username']+"&password="+request.form['password']
+    if data[2] =='user':
+        s="?username="+username+"&password="+password
         return        '''
         <h3>Welcome user!</h3>
                <a href='http://10.17.18.101:10047/'''+s+''''>管理自己的容器</a>
         '''
 
-    return '<h3>Bad username or password!</h3>'
+    return '<h3>未知错误</h3>'
 
 
 if __name__ == '__main__':
