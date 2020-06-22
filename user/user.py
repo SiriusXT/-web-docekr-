@@ -87,7 +87,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for ss_ in ss:
             for data_ in data:
                 print(data_, ss_.split())
-                if data_!=[] and ss_!=[] and ss_.split()[0]==data_[0] and username==data_[1] :
+                if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
 
                     temp.append()
         ss=temp
@@ -111,12 +111,17 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
 ######################################
-        temp = []
+        print(data)
+        print(ss)
+        temp=[]
         for ss_ in ss:
             for data_ in data:
-                if data_ != [] and ss_ != [] and ss_.split()[0] == data_[0] and username == data_[1]:
+                print(data_, ss_.split())
+                if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
+
                     temp.append()
-        ss = temp
+        ss=temp
+        ######################################
 
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
