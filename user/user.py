@@ -188,7 +188,7 @@ class UserHandler(tornado.web.RequestHandler):
                 print("---------------",i)
                 if data_[0][:12]==id[0:12]:
                     1
-                else:
+                elif i!=[]:
                     temp=temp+i[0]+" "+i[1]+"\n"
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
