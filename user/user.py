@@ -54,6 +54,8 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" +"Welcome "+username + "</h2>"
         self.write(self.get_argument("greeting", s))
+        s = "<h2><input type='radio' name='password' value=" + password + " checked>" + "控制台 " + "</h2>"
+        self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
@@ -81,12 +83,12 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write(greeting)
         ss = ss[1:]
         ######################################
-        print(data)
-        print(ss)
+        #print(data)
+        #print(ss)
         temp=[]
         for ss_ in ss:
             for data_ in data:
-                print(data_, ss_.split())
+                #print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
 
                     temp.append(ss_)
@@ -157,6 +159,7 @@ class IndexHandler(tornado.web.RequestHandler):
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         username = self.get_argument("username")
+        password = self.get_argument("password")
         operation = self.get_argument("op")
         id = self.get_argument("id")
 
@@ -183,6 +186,8 @@ class UserHandler(tornado.web.RequestHandler):
                 data_[i] = data_[i].split()
             for i in data:
                 if data_[0][:12]==id[0:12]:
+                    1
+                else:
                     temp=temp+i+"\n"
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
@@ -193,8 +198,7 @@ class UserHandler(tornado.web.RequestHandler):
             greeting = self.get_argument("greeting", s)
             self.write(greeting)
 
-        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/'>返回首页</a>"))
-
+        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10048/?username="+username+"&password="+password+"'>返回首页</a>"))
 
 
 handlers = [
