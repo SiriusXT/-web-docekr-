@@ -89,7 +89,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
 
-                    temp.append()
+                    temp.append(ss_)
         ss=temp
         ######################################
         for line in ss:
@@ -119,7 +119,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 print(data_, ss_.split())
                 if data_!=[] and ss_!=[] and ss_.split()[0][0:10]==data_[0][0:10] and username==data_[1] :
 
-                    temp.append()
+                    temp.append(ss_)
         ss=temp
         ######################################
 
