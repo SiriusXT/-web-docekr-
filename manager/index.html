@@ -380,15 +380,15 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 		<div id="main">
 
-			<div class="section"><h1>介绍</h1>{%divIntroduction%}</div>
+			<div class="section"><h1>介绍</h1>{{divIntroduction}}</div>
 
-			<div class="section"><h1>镜像</h1>{%divImages%}</div>
+			<div class="section"><h1>镜像</h1>{% autoescape off %}{{divImages}}{% endautoescape %}</div>
 
-			<div class="section"><h1>容器</h1>{%divContains%}</div>
+			<div class="section"><h1>容器</h1>{{divContains}}</div>
 
-			<div class="section"><h1>运行</h1>{%divRun%}</div>
+			<div class="section"><h1>运行</h1>{{divRun}}</div>
 
-			<div class="section"><h1>其他</h1>{%divOthers%}</div>
+			<div class="section"><h1>其他</h1>{{divOthers}}</div>
 
 		</div><!-- [END] #main -->
 
