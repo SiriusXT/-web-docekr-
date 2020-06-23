@@ -1,0 +1,172 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>侧边固定导航效果</title>
+<style>
+/*辅助代码*/
+body {
+    font-family: "Microsoft YaHei", 微软雅黑;
+    margin:0;
+    padding:0;
+}
+a {
+    font-size: 12px;
+    color: #333333;
+    text-decoration: none;
+    cursor: pointer;
+}
+i, em {
+    font-style: normal;
+}
+ul, ol, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.product_detail{
+	width: 1200px;
+	margin: 0px auto;
+	overflow:hidden;
+}
+.xc_main {
+    width: 1070px;
+    float: right;
+}
+.xc_main li:nth-child(4n+1){background: #5DB2FF;height:500px;}
+.xc_main li:nth-child(4n+2){background: #FB6E52;height:500px;}
+.xc_main li:nth-child(4n+3){background: #E75B8D;height:500px;}
+.xc_main li:nth-child(4n+4){background: #A0D468;height:500px;}
+
+
+/*侧边导航*/
+.leftsidebar {
+    float: left;
+    width: 100px;
+    z-index: 99;
+}
+.leftsidebar li {
+    width: 70px;
+    text-align: center;
+    background: #e5e5e5;
+    -ms-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 5px;
+    position: relative;
+}
+.leftsidebar li:hover, .leftsidebar li.on ,.leftsidebar li:hover a, .leftsidebar li.on a{
+    background: #0099d9;
+    color: #FFF;
+}
+.leftsidebar li a {
+    display: inline-block;
+    width: 70px;
+    font-size: 14px;
+    color: #999;
+    -ms-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.icon_tag {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(icon-product.png);
+}
+.leftsidebar .arrow-right{
+    background-position:-734px -167px;
+    display: none;
+    height: 12px;
+    width: 10px;
+    margin-top: -6px;
+    position: absolute;
+    right: -10px;
+    top: 50%;
+}
+.leftsidebar li.on .arrow-right {
+    display: block;
+}
+.sub_fixed{
+	position:fixed;
+}
+</style>
+</head>
+<body>
+<div class="product_detail">
+<h2>行程介绍</h2>
+	<ul class="xc_main">
+		<li>第1天</li>
+		<li>第2天</li>
+		<li>第3天</li>
+		<li>第4天</li>
+		<li>第5天</li>
+		<li>第6天</li>
+	</ul>
+</div>
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+function sidebarlight(obj,top) { //obj为右侧内容父元素的class或id,top为侧边导航处于position：relative时top的取值
+		var subcont_length = $(obj).children("li").length;//获取主题标题的个数
+		//js动态添加侧边导航代码
+		var start = '<div class="leftsidebar"><ul>',
+			content = '',
+			end = '</ul></div>';
+		for(var i = 0; i <= subcont_length-1; i++){
+			var n=i+1;
+			content += '<li>' + '<a href="javascript:;">' +'<em>' +"第"+ n +"天"+'</em>' +'<i class="arrow-right icon_tag"></i>' + '</a>' + '</li>';
+		}
+
+		$(obj).before(start + content + end);
+
+		//滚动条滚动到一定位置，侧边导航固定在浏览器的左上20px，且侧边导航滚动高亮
+		var subT = $(".leftsidebar").offset().top;
+		var subH= $(".leftsidebar").height();
+		var objH=$(obj).height();
+		var objT=$(obj).offset().top;
+		var subliH= $(".leftsidebar li").eq(0).outerHeight(true);
+		$(window).scroll(function(){
+			var scroH = $(this).scrollTop();
+			if(scroH>=subT-parseInt(top)&&scroH<=parseInt(objH)+objT-subH){
+				$(".leftsidebar").addClass("sub_fixed");
+				$(".sub_fixed").css("top",top);
+			}
+			else if(scroH<subT-parseInt(top)){
+				$(".leftsidebar").removeClass("sub_fixed");
+			}
+			else if (scroH >parseInt(objH)+objT-subH) {
+				$(".leftsidebar").removeClass("sub_fixed");
+			}
+			//侧边导航滚动高亮
+			for (var i = subcont_length - 1; i >= 0; i--) {
+				var subtop=$(obj).children("li").eq(i).offset().top;
+				if ($(window).scrollTop()>= subtop-subliH*(i+1)-parseInt(top)) {
+                                //如果滚动条滚动的距离大于等于右侧的内容区域的.offset().top
+                                //减去侧边导航的高度再减去侧边导航固定的top值，对应导航按钮高亮
+					$(".leftsidebar li").removeAttr("class");
+					$(".leftsidebar li").eq(i).attr("class", "on");
+					break;
+				}
+			}
+		})
+		//侧边导航点击导航按钮，按钮高亮，网页滚动到到相应区域
+		$(".leftsidebar li").on("click", function() {
+            var index = $(this).index();//判断点击的选项是第几个
+            a = $(obj).children("li").eq(index);//对应第几个内容对象
+            b= a.offset().top;
+			$(this).addClass("on").siblings().removeClass("on");
+            $("body,html").animate({scrollTop:b-subliH*index-parseInt(top)},400);
+        })
+		$(".leftsidebar li").eq(0).attr("class", "on");
+ }
+sidebarlight(".xc_main","20px");
+</script>
+</body>
+</html>
