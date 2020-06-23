@@ -114,7 +114,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ######################################
         # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$", ss)
         for i in  range(len(ss)):
-            ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ")
+            ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
             print("++",ss[i])
             # ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
@@ -178,7 +178,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # self.write(self.get_argument("greeting", "<p>高级功能:<br><input type='text' name='operation'></p>"))
         # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         # self.write(self.get_argument("greeting", "</form>"))
-
+        print(("@@@@@@@@@@@@@@@@@@@",divContains))
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers="divOthers")
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
