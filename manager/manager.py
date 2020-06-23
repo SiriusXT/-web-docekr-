@@ -48,7 +48,7 @@ class IndexHandler(tornado.web.RequestHandler):
         username = self.get_argument("username")
         password = self.get_argument("password")
         divIntroduction=""
-        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + " " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         divIntroduction=divIntroduction+s
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         cursor = db.cursor()
@@ -65,7 +65,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(len(ss)):
             ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
             ss[i]=ss[i].split()
-        divImages= divImages+"<table border='1'>"
+        divImages= divImages +"<table class='cssImages'>"
         for i in range(len(ss)):
             divImages = divImages +"<tr>"
             divImages = divImages+"<td><input type='radio' name='id' value="+ss[i][2]+" checked></td>"
@@ -89,7 +89,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(len(data)):
             data[i]=data[i].split()
         divContains = ""
-        divContains=divContains+"<table border='1'>"
+        divContains=divContains+"<table class='cssContains'>"
         ss = sshdocker("docker ps -a")
 
         divContains = divContains + "<tr>"
@@ -133,7 +133,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divContains = divContains +"<p><input type='submit' value='submit'></p>"
 
         divRun = ""
-        divRun+="<table border='1'>"
+        divRun+="<table class='cssRun'>"
         divRun+="<tr>"
         divRun+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
         ss = sshdocker("docker ps")
@@ -171,16 +171,13 @@ class IndexHandler(tornado.web.RequestHandler):
             divRun = divRun + "</tr>"
         divRun = divRun +"</table>"
 
-        # for line in ss:
-        #     s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
-        #     divRun = divRun +s
-        #     # greeting = self.get_argument("greeting", s)
-            # self.write(greeting)
+
         divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
-        divRun = divRun +"&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
-        divRun = divRun +"<input type='submit' value='submit'>"
 
+        divOthers=""
+        divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
+        divOthers = divOthers + "<input type='submit' value='submit'>"
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers="divOthers")
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
