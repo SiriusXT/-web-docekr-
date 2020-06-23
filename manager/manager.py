@@ -75,16 +75,13 @@ class IndexHandler(tornado.web.RequestHandler):
                 divImages = divImages + "</td>"
             divImages = divImages + "</tr>"
         divImages = divImages +"</table>"
-        # ss = ss[1:]
-        # for line in ss:
-        #     s="<p><input type='radio' name='id' value=" + line.split()[2] + " checked>" + line.replace(" ", "&nbsp") + "</p>"
-        #     divImages = divImages +s
 
-        divImages = divImages +"<p>参数:<br><input type='text' name='arg'></p>"
+
+        divImages = divImages +"参数:<br><input type='text' name='arg'>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
-        divImages = divImages +"<input type='submit' value='submit'>"
+        divImages = divImages +"<p><input type='submit' value='submit'></p>"
 
         with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
             data = f.read()
@@ -92,14 +89,18 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(len(data)):
             data[i]=data[i].split()
         divContains = ""
-        divContains = divContains +"<h2>运行过的容器</h2>"
-        # self.write(self.get_argument("greeting", "<h2>运行过的容器</h2>"))  ################
+        divContains=divContains+"<table border='1'>"
         ss = sshdocker("docker ps -a")
-        divContains = divContains + ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user'
-        # greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user')
-        # self.write(greeting)
+
+        divContains = divContains + "<tr>"
+        divContains+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
+        temp=ss[0].split()
+        for i in temp:
+            divContains +="<td>"+i+"</td>"
+        divContains = divContains + "</tr>"
+        # divContains = divContains + ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user'
         ss = ss[1:]
-        ######################################
+
         temp = []
         for ss_ in ss:
             f=0
@@ -111,32 +112,32 @@ class IndexHandler(tornado.web.RequestHandler):
                     temp.append(ss_+"     "+"unknow")
         ss = temp
         ######################################
-
-
-        for line in ss:
-            s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
-            divContains = divContains +s
-            # greeting = self.get_argument("greeting", s)
-            # self.write(greeting)
+        for i in  range(len(ss)):
+            ss[i]=ss[i].split()
+            if len(ss[i])==7:#没有port
+                ss[i].insert(5,"no")
+        for i in range(len(ss)):
+            divContains = divContains +"<tr>"
+            divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
+            for j in range(len(ss[i])):
+                divContains = divContains + "<td>"
+                divContains = divContains + ss[i][j]
+                divContains = divContains + "</td>"
+            divContains = divContains + "</tr>"
+        # for line in ss:
+        #     s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
+        #     divContains = divContains +s
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"
-        divContains = divContains +"<input type='submit' value='submit'>"
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"))
-        # self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
+        divContains = divContains +"<p><input type='submit' value='submit'></p>"
+
 
         divRun = ""
-        # divRun=divRun+"<h2>运行中的容器</h2>"
-        # self.write(self.get_argument("greeting", "<h2>运行中的容器</h2>"))  ################
+
         ss = sshdocker("docker ps")
         divRun = divRun +ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user'
-        # greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user')
-        # self.write(greeting)
+
         ss = ss[1:]
         ######################################
         temp = []
