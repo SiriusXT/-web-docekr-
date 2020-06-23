@@ -68,8 +68,13 @@ class IndexHandler(tornado.web.RequestHandler):
         divImages= divImages +"<table class='cssImages'>"
         for i in range(len(ss)):
             divImages = divImages +"<tr>"
-            divImages = divImages+"<td><input type='radio' name='id' value="+ss[i][2]+" checked></td>"
+            divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
             for j in range(len(ss[0])):
+                if i==0:
+                    divImages = divImages + "<th>"
+                    divImages = divImages + ss[i][j]
+                    divImages = divImages + "</th>"
+                    continue
                 divImages = divImages +"<td>"
                 divImages = divImages + ss[i][j]
                 divImages = divImages + "</td>"
@@ -93,11 +98,11 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = sshdocker("docker ps -a")
 
         divContains = divContains + "<tr>"
-        divContains+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
+        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
         temp=ss[0].replace("CONTAINER ID","CONTAINERID").split()
         for i in temp:
-            divContains +="<td>"+i+"</td>"
-        divContains = divContains +"<td>user</td>"
+            divContains +="<th>"+i+"</th>"
+        divContains = divContains +"<th>user</th>"
         divContains = divContains + "</tr>"
         # divContains = divContains + ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user'
         ss = ss[1:]
@@ -120,7 +125,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
-            divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
+            divContains = divContains + "<th><input type='radio' name='id' value=" + ss[i][0] + " checked></th>"
             for j in range(len(ss[i])):
                 divContains = divContains + "<td>"
                 divContains = divContains + ss[i][j]
@@ -135,12 +140,12 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = ""
         divRun+="<table class='cssRun'>"
         divRun+="<tr>"
-        divRun+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
+        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
         ss = sshdocker("docker ps")
 
         temp = ss[0].split()
         for i in temp:
-            divRun += "<td>" + i + "</td>"
+            divRun += "<th>" + i + "</th>"
         divRun = divRun + "</tr>"
 
         ss = ss[1:]
@@ -163,7 +168,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divRun = divRun +"<tr>"
-            divRun = divRun + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
+            divRun = divRun + "<th><input type='radio' name='id' value=" + ss[i][0] + " checked></th>"
             for j in range(len(ss[i])):
                 divRun = divRun + "<td>"
                 divRun = divRun + ss[i][j]
