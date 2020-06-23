@@ -112,14 +112,14 @@ class IndexHandler(tornado.web.RequestHandler):
                     temp.append(ss_+"     "+"unknow")
         ss = temp
         ######################################
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$", ss)
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$", ss)
         for i in  range(len(ss)):
-            ss[i].replace("  ","##").replace(" ","_").replace("#"," ")
+            ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ")
             print("++",ss[i])
-            ss[i]=ss[i].split()
+            # ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
                 ss[i].insert(5,"noport")
-        print("----------------------",ss)
+        # print("----------------------",ss)
         print(divContains)
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
