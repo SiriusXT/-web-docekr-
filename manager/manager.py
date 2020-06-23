@@ -112,6 +112,7 @@ class IndexHandler(tornado.web.RequestHandler):
                     temp.append(ss_+"     "+"unknow")
         ss = temp
         ######################################
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$", ss)
         for i in  range(len(ss)):
             ss[i].replace("  ","##").replace(" ","_").replace("#"," ")
             print("++",ss[i])
