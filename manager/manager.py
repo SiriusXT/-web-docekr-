@@ -94,9 +94,10 @@ class IndexHandler(tornado.web.RequestHandler):
 
         divContains = divContains + "<tr>"
         divContains+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
-        temp=ss[0].split()
+        temp=ss[0].replace("CONTAINER ID","CONTAINERID").split()
         for i in temp:
             divContains +="<td>"+i+"</td>"
+        divContains = divContains +"<td>user</td>"
         divContains = divContains + "</tr>"
         # divContains = divContains + ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp user'
         ss = ss[1:]
@@ -111,16 +112,12 @@ class IndexHandler(tornado.web.RequestHandler):
             if f==0 and ss_ != []  :
                     temp.append(ss_+"     "+"unknow")
         ss = temp
-        ######################################
-        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$", ss)
         for i in  range(len(ss)):
             ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
             print("++",ss[i])
             ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
                 ss[i].insert(5,"noport")
-        # print("----------------------",ss)
-        print(divContains)
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
             divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
@@ -130,19 +127,21 @@ class IndexHandler(tornado.web.RequestHandler):
                 divContains = divContains + "</td>"
             divContains = divContains + "</tr>"
         divContains = divContains +"</table>"
-        # for line in ss:
-        #     s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
-        #     divContains = divContains +s
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"
         divContains = divContains +"<p><input type='submit' value='submit'></p>"
 
-
         divRun = ""
-
+        divRun+="<table border='1'>"
+        divRun+="<tr>"
+        divRun+="<td><input type='radio' name='id' value=" +  "CONTAINERID"  + "></td>"
         ss = sshdocker("docker ps")
-        divRun = divRun +ss[0].replace(" ", "&nbsp")+'&nbsp&nbsp&nbsp&nbsp user'
+
+        temp = ss[0].split()
+        for i in temp:
+            divRun += "<td>" + i + "</td>"
+        divRun = divRun + "</tr>"
 
         ss = ss[1:]
         ######################################
@@ -156,8 +155,14 @@ class IndexHandler(tornado.web.RequestHandler):
             if f == 0 and ss_ != []:
                 temp.append(ss_ + "     " + "unknow")
         ss = temp
-
         ######################################
+        # for i in  range(len(ss)):
+        #     ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
+        #     ss[i]=ss[i].split()
+        #     if len(ss[i])==7:#没有port
+        #         ss[i].insert(5,"noport")
+
+
 
         for line in ss:
             s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
