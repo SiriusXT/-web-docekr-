@@ -116,7 +116,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in  range(len(ss)):
             ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
             print("++",ss[i])
-            # ss[i]=ss[i].split()
+            ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
                 ss[i].insert(5,"noport")
         # print("----------------------",ss)
@@ -125,7 +125,6 @@ class IndexHandler(tornado.web.RequestHandler):
             divContains = divContains +"<tr>"
             divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
             for j in range(len(ss[i])):
-                print("$$$$$$$$",ss[i][j])
                 divContains = divContains + "<td>"
                 divContains = divContains + ss[i][j]
                 divContains = divContains + "</td>"
