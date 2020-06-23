@@ -125,6 +125,7 @@ class IndexHandler(tornado.web.RequestHandler):
             divContains = divContains +"<tr>"
             divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
             for j in range(len(ss[i])):
+                print("$$$$$$$$",ss[i][j])
                 divContains = divContains + "<td>"
                 divContains = divContains + ss[i][j]
                 divContains = divContains + "</td>"
