@@ -129,6 +129,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 divContains = divContains + ss[i][j]
                 divContains = divContains + "</td>"
             divContains = divContains + "</tr>"
+        divContains = divContains +"</table>"
         # for line in ss:
         #     s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
         #     divContains = divContains +s
@@ -167,18 +168,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = divRun +"<input type='submit' value='submit'>"
         divRun = divRun +"&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
         divRun = divRun +"<input type='submit' value='submit'>"
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"))
-        #
-        # self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
-        #
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"))
 
-        # self.write(self.get_argument("greeting", "<p>高级功能:<br><input type='text' name='operation'></p>"))
-        # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
-        # self.write(self.get_argument("greeting", "</form>"))
-        print(("@@@@@@@@@@@@@@@@@@@",divContains))
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers="divOthers")
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
