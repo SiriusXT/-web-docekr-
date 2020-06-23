@@ -57,42 +57,20 @@ class IndexHandler(tornado.web.RequestHandler):
         if data[1] != password or data[2]!="admin" :
             self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
             return
-            ################
-
-        # self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
-
-        # s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         divImages = ""
-        # divImages = divImages +s
-        # self.write(self.get_argument("greeting", s))
-        # divImages = divImages +"<h2>存在的镜像</h2>"
-        # self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################
         ss = sshdocker("docker images")
         divImages = divImages +ss[0].replace(" ", "&nbsp")
-        # greeting = self.get_argument("greeting", ss[0].replace(" ", "&nbsp"))
-        # self.write(greeting)
         ss = ss[1:]
         for line in ss:
             s="<p><input type='radio' name='id' value=" + line.split()[2] + " checked>" + line.replace(" ", "&nbsp") + "</p>"
             divImages = divImages +s
-            # greeting = self.get_argument("greeting", s)
-            # self.write(greeting)
+
         divImages = divImages +"<p>参数:<br><input type='text' name='arg'></p>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<input type='submit' value='submit'>"
-        # self.write(self.get_argument("greeting",
-        #                              "<p>参数:<br><input type='text' name='arg'></p>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"))
-        # self.write(self.get_argument("greeting",
-        #                              "&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "运行" + "</label>"))
-        # self.write(self.get_argument("greeting", "<input type='submit' value='submit'>"))
+
 
         with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
             data = f.read()
