@@ -240,8 +240,11 @@ handlers = [
 ]
 template_path = os.path.join(os.path.dirname(__file__), "template")
 if __name__ == "__main__":
+    settings = {
+        "autoescape": None
+    }
     tornado.options.parse_command_line()
-    app = tornado.web.Application(handlers, template_path)
+    app = tornado.web.Application(handlers, template_path,**settings)
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
