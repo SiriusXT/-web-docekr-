@@ -53,7 +53,7 @@ class IndexHandler(tornado.web.RequestHandler):
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         cursor = db.cursor()
         sql = " select * from user where username = '" + username + "' "
-        cursor.execute(sql)
+        userCount=cursor.execute(sql)
         data = cursor.fetchone()
         # self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
 
@@ -82,7 +82,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divImages = divImages +"</table>"
 
 
-        divImages = divImages +"参数:<br><input type='text' name='arg'>"
+        divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
@@ -132,7 +132,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 divContains = divContains + "</td>"
             divContains = divContains + "</tr>"
         divContains = divContains +"</table>"
-        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
+        divContains = divContains +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"
         divContains = divContains +"<p><input type='submit' value='submit'></p>"
@@ -176,7 +176,7 @@ class IndexHandler(tornado.web.RequestHandler):
             divRun = divRun + "</tr>"
         divRun = divRun +"</table>"
 
-        divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
+        divRun = divRun +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
 
         divOthers=""
@@ -184,7 +184,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divOthers = divOthers + "<input type='submit' value='submit'>"
 
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers)
+                divRun=divRun, divOthers=divOthers,userCount=userCount,dockerV=sshdocker("docker -v"))
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
 
 

@@ -637,15 +637,19 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 		<div id="main">
 <form method='post' action='/user'>
-			<div class="section"><h1>Welcome</h1><p> </p><p> </p>{{divIntroduction}}</div>
+			<div class="section"><h1>Welcome</h1><br>
+				<p>&nbsp&nbsp&nbsp&nbsp用户类型：管理员</p>
+				<p>&nbsp&nbsp&nbsp&nbsp用户数：{userCount}</p>
+				<p>&nbsp&nbsp&nbsp&nbsp Docker版本：{dockersV}</p>
+			</div>
 
-			<div class="section"><h1>镜像</h1><p> </p><p> </p>{{divImages}}</div>
+			<div class="section"><h1>镜像</h1><br>{{divImages}}</div>
 
-			<div class="section"><h1>容器</h1><p> </p><p> </p>{{divContains}}</div>
+			<div class="section"><h1>容器</h1><br>{{divContains}}</div>
 
-			<div class="section"><h1>运行</h1><p> </p><p> </p>{{divRun}}</div>
+			<div class="section"><h1>运行</h1><br>{{divRun}}</div>
 
-			<div class="section"><h1>其他</h1><p> </p><p> </p>{{divOthers}}</div>
+			<div class="section"><h1>其他</h1><br>{{divOthers}}</div>
 </form>
 		</div><!-- [END] #main -->
 
