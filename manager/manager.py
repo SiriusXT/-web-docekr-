@@ -176,15 +176,15 @@ class IndexHandler(tornado.web.RequestHandler):
             divRun = divRun + "</tr>"
         divRun = divRun +"</table>"
 
-
         divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
 
         divOthers=""
         divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
         divOthers = divOthers + "<input type='submit' value='submit'>"
+
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers="divOthers")
+                divRun=divRun, divOthers=divOthers)
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
 
 
