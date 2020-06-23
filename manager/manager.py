@@ -156,18 +156,25 @@ class IndexHandler(tornado.web.RequestHandler):
                 temp.append(ss_ + "     " + "unknow")
         ss = temp
         ######################################
-        # for i in  range(len(ss)):
-        #     ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
-        #     ss[i]=ss[i].split()
-        #     if len(ss[i])==7:#没有port
-        #         ss[i].insert(5,"noport")
+        for i in  range(len(ss)):
+            ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
+            ss[i]=ss[i].split()
+            if len(ss[i])==7:#没有port
+                ss[i].insert(5,"noport")
+        for i in range(len(ss)):
+            divRun = divRun +"<tr>"
+            divRun = divRun + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
+            for j in range(len(ss[i])):
+                divRun = divRun + "<td>"
+                divRun = divRun + ss[i][j]
+                divRun = divRun + "</td>"
+            divRun = divRun + "</tr>"
+        divRun = divRun +"</table>"
 
-
-
-        for line in ss:
-            s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
-            divRun = divRun +s
-            # greeting = self.get_argument("greeting", s)
+        # for line in ss:
+        #     s = "<p><input type='radio' name='id' value=" +  line.split()[0]  + ">" + line.replace(" ", "&nbsp") + "</p>"
+        #     divRun = divRun +s
+        #     # greeting = self.get_argument("greeting", s)
             # self.write(greeting)
         divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
