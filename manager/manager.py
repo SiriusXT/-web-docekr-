@@ -133,7 +133,7 @@ class IndexHandler(tornado.web.RequestHandler):
             divContains = divContains + "</tr>"
         divContains = divContains +"</table>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
-        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"
+        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm -f '>" + "删除" + "</label>"
         divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"
         divContains = divContains +"<p><input type='submit' value='submit'></p>"
 
