@@ -47,6 +47,9 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
+        divIntroduction=""
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
+        divIntroduction=divIntroduction+s
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         cursor = db.cursor()
         sql = " select * from user where username = '" + username + "' "
@@ -59,18 +62,29 @@ class IndexHandler(tornado.web.RequestHandler):
             return
         divImages = ""
         ss = sshdocker("docker images")
-        divImages = divImages +ss[0].replace(" ", "&nbsp")
-        ss = ss[1:]
-        for line in ss:
-            s="<p><input type='radio' name='id' value=" + line.split()[2] + " checked>" + line.replace(" ", "&nbsp") + "</p>"
-            divImages = divImages +s
+        for i in range(len(ss)):
+            ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
+            ss[i]=ss[i].split()
+        divImages= divImages+"<table border='1'>"
+        for i in range(len(ss)):
+            divImages = divImages +"<tr>"
+            divImages = divImages+"<td><input type='radio' name='id' value="+ss[i][2]+" checked></td>"
+            for j in range(len(ss[0])):
+                divImages = divImages +"<td>"
+                divImages = divImages + ss[i][j]
+                divImages = divImages + "</td>"
+            divImages = divImages + "</tr>"
+        divImages = divImages +"</table>"
+        # ss = ss[1:]
+        # for line in ss:
+        #     s="<p><input type='radio' name='id' value=" + line.split()[2] + " checked>" + line.replace(" ", "&nbsp") + "</p>"
+        #     divImages = divImages +s
 
         divImages = divImages +"<p>参数:<br><input type='text' name='arg'></p>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi'>" + "删除" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<input type='submit' value='submit'>"
-
 
         with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
             data = f.read()
@@ -159,7 +173,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # self.write(self.get_argument("sub", "<input type='submit' value='submit'>"))
         # self.write(self.get_argument("greeting", "</form>"))
 
-        self.render("index.html", divIntroduction="divIntroduction", divImages=divImages, divContains=divContains,
+        self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers="divOthers")
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
 
