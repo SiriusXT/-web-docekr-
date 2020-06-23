@@ -116,7 +116,8 @@ class IndexHandler(tornado.web.RequestHandler):
             ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
                 ss[i].insert(5,"noport")
-        print(ss)
+        print("----------------------",ss)
+        print(divContains)
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
             divContains = divContains + "<td><input type='radio' name='id' value=" + ss[i][0] + " checked></td>"
