@@ -113,7 +113,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = temp
         ######################################
         for i in  range(len(ss)):
-            ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
+            ss[i].replace("  ","##").replace(" ","_").replace("#"," ")
             ss[i]=ss[i].split()
             if len(ss[i])==7:#没有port
                 ss[i].insert(5,"noport")
