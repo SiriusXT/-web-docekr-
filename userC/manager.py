@@ -8,12 +8,13 @@ import tornado.options
 import tornado.web
 from tornado.options import define, options
 import pymysql
-define("port", default=8006, help="run on the given port", type=int)
+define("port", default=8007, help="run on the given port", type=int)
 
 import paramiko
 
 
 def sshdocker(cmd):
+    print("--run--： ",cmd)
     _ssh = paramiko.SSHClient()
     key = paramiko.AutoAddPolicy()
     _ssh.set_missing_host_key_policy(key)
@@ -86,8 +87,8 @@ class IndexHandler(tornado.web.RequestHandler):
 
 
         divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
-        divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
-        divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
+        # divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
+        # divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<p><input type='submit' value='submit'></p>"
 
@@ -114,11 +115,11 @@ class IndexHandler(tornado.web.RequestHandler):
         for ss_ in ss:
             f=0
             for data_ in data:
-                if data_ != [] and ss_ != [] and ss_.split()[0][0:10]==data_[0][0:10] :
+                if data_ != [] and ss_ != [] and ss_.split()[0][0:10]==data_[0][0:10] and data_[1]==username:
                     temp.append(ss_+"     "+data_[1])
                     f=1
-            if f==0 and ss_ != []  :
-                    temp.append(ss_+"     "+"unknow")
+            # if f==0 and ss_ != []  :
+            #         temp.append(ss_+"     "+"unknow")
         ss = temp
         for i in  range(len(ss)):
             ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
@@ -158,11 +159,11 @@ class IndexHandler(tornado.web.RequestHandler):
         for ss_ in ss:
             f = 0
             for data_ in data:
-                if data_ != [] and ss_ != [] and ss_.split()[0][0:10] == data_[0][0:10]:
+                if data_ != [] and ss_ != [] and ss_.split()[0][0:10] == data_[0][0:10] and data_[1]==username:
                     temp.append(ss_ + "     " + data_[1])
                     f = 1
-            if f == 0 and ss_ != []:
-                temp.append(ss_ + "     " + "unknow")
+            # if f == 0 and ss_ != []:
+            #     temp.append(ss_ + "     " + "unknow")
         ss = temp
         ######################################
         for i in  range(len(ss)):
@@ -185,11 +186,14 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = divRun +"<input type='submit' value='submit'>"
 
         divOthers=""
-        divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
-        divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
-
+        # divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
+        # divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
+        result=result.split("$$")
+        resultresult=""
+        for line in result:
+            resultresult+="<p>"+line+"</p>"
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result,
+                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=resultresult,
                 imagesNum=len(getimages(client)),
         )
 
@@ -204,16 +208,17 @@ class UserHandler(tornado.web.RequestHandler):
 
         id = self.get_argument("id")
         print(id)
-        cmd = "docker " + operation + " " + id
+
         if operation=="pull":
             id=self.get_argument("arg")
+        cmd = "docker " + operation + " " + id
         if operation == "run -d -it":
             cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
 
         if operation=="top":
             cmd=self.get_argument("operation")
         print(id)
-        print(cmd)
+
 
         ss=sshdocker(cmd)
         if operation=="stopall":
@@ -238,13 +243,14 @@ class UserHandler(tornado.web.RequestHandler):
 
         # self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         # self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
-        result=""
-        for line in ss:
-            s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
-            # greeting = self.get_argument("greeting", s)
-            # self.write(greeting)
-            result+=s
-        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+result
+        # result=""
+        # for line in ss:
+        #     s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
+        #     # greeting = self.get_argument("greeting", s)
+        #     # self.write(greeting)
+        #     result+=s
+        ss="$$".join(ss)
+        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
         # self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
 
