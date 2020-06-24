@@ -185,7 +185,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
 
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers,username=username,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result)
+                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result)
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
 
 
