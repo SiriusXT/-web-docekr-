@@ -188,9 +188,12 @@ class IndexHandler(tornado.web.RequestHandler):
         divOthers=""
         divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
         divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
-
+        result=result.split("$$")
+        resultresult=""
+        for line in result:
+            resultresult+="<p>"+line+"</p>"
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result,
+                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=resultresult,
                 imagesNum=len(getimages(client)),
         )
 
