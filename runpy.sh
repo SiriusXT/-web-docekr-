@@ -1,4 +1,4 @@
 echo start
-python3 login/login.py  &
-python3 admin/ad.py   &
-python3 user/user.py   &
+python3 loginC/login.py  &
+python3 adminC/manager.py &
+python3 userC/manager.py &
