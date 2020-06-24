@@ -48,6 +48,7 @@ class IndexHandler(tornado.web.RequestHandler):
         username = self.get_argument("username")
         password = self.get_argument("password")
         result= self.get_argument("result")
+        client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')##############
         divIntroduction=""
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" + " " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         divIntroduction=divIntroduction+s
@@ -134,8 +135,9 @@ class IndexHandler(tornado.web.RequestHandler):
             divContains = divContains + "</tr>"
         divContains = divContains +"</table>"
         divContains = divContains +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='start'>" + "运行" + "</label>"
-        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm '>" + "删除" + "</label>"
-        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs '>" + "查看日志" + "</label>"
+        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='rm'>" + "删除" + "</label>"
+        divContains = divContains +"&nbsp&nbsp<label><input type='radio' name='op' value='logs'>" + "查看日志" + "</label>"
+        divContains = divContains + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
         divContains = divContains +"<p><input type='submit' value='submit'></p>"
 
         divRun = ""
@@ -185,8 +187,10 @@ class IndexHandler(tornado.web.RequestHandler):
         divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
 
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result)
-    client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
+                divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result,
+                imagesNum=len(getimages(client)),
+        )
+
 
 
 class UserHandler(tornado.web.RequestHandler):
@@ -194,6 +198,7 @@ class UserHandler(tornado.web.RequestHandler):
         username = self.get_argument("username")
         password = self.get_argument("password")
         operation = self.get_argument("op")
+        client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')  ##############
 
         id = self.get_argument("id")
         print(id)
@@ -209,7 +214,9 @@ class UserHandler(tornado.web.RequestHandler):
         print(cmd)
 
         ss=sshdocker(cmd)
-
+        if operation=="stopall":
+            stopall(client)
+            ss="OK"
         if operation=="run -d -it":
             with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
                 str = f.read()
