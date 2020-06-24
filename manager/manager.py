@@ -181,7 +181,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         divOthers=""
         divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
-        divOthers = divOthers + "<input type='submit' value='submit'>"
+        divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
 
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers=divOthers,userCount=userCount,dockerV=sshdocker("docker -v"))

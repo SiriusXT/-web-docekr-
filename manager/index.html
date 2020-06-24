@@ -1,14 +1,11 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Docker</title>
-<meta name="keywords" content="垂直导航,滑动导航,jquery导航" />
-<meta name="description" content="具体效果请看演示，一流资源网推荐下载。" />
+
 	<link rel="stylesheet" href="css/css.css" type="text/css" media="all" />
 
 <!--	<link  rel='stylesheet' type='text/css'>-->
@@ -140,7 +137,7 @@ a:hover {
 	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .3);
 }
 .section {
-	min-height: 500px;
+	min-height: 800px;
 	padding: 40px;
 }
 .topNav {
@@ -631,16 +628,16 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 <body>
 
 <div id="lrzj" class="light">
-		<a href="#" class="prev"><img src="images/icon_arrow-up_light.png" alt="" width="28" height="31" /></a>
-		<a href="#" class="next"><img src="images/icon_arrow-down_light.png" alt="" width="28" height="31" /></a>	</div>
+		<a href="#" class="prev"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAfCAYAAAD0ma06AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDU0NjQzQ0E0OThEMTFFMTkzOTdGQTg0ODBEREUxODMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDU0NjQzQ0I0OThEMTFFMTkzOTdGQTg0ODBEREUxODMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpENTQ2NDNDODQ5OEQxMUUxOTM5N0ZBODQ4MERERTE4MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpENTQ2NDNDOTQ5OEQxMUUxOTM5N0ZBODQ4MERERTE4MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgOn4dUAAAJISURBVHja7JfPaxNBFMdnd/b3j9A91NZ6SvwDig1481Bo8SZY6M1zPHoU/wCx/QeEnD2p6EWoaHoo3grm5NEmaSqhNBuSrBrFbnbH98a0xKSb7iYRPOSFhTCZnc/7vvm+GSK82XlLEoZDqViiIr3PGHt5e30t0cvSGLCCoRuOaVnPl64uZmBsO8kCYqLJopjXVC1r2TYxTVNotb0nbc9b/SdAhKmqumkDzDAMIkkSPsKJ6xYOq9X0VIGCIOQURclZlkUM0+QwGCOUUvyVdoOgiOWeChAW3lRkOQ8lxDISWZY5rE858buBc1Aqf5wYCAtnZUnKYwlRHaj8C9abwxWfdruZL7Xah0mAGYnSgm4Yjp1KEdg/riYiMa7c+/rt1kG58mwcINr/habrDppkFKwfihU49f179br7OBEQYbqmZxGm63rPHLGczMvrNpuPasfHd2IBe/Zf446EvbtMWQRU+N7pvK67jRsjgVCWh3/sb3P7o7JBk8SJs3Zpee29wXYRB3ptC5VdZP+kgUoZI6lSufJpCNiz/5YV0WvjxNnB8Mv3rx0eHe33A8/tDwdyLEcmgWLynR8/b1aq1Vf8toBBZ/7K/IPr6fRTyMjiE8mwupNGg/i+z5MZVL+0uADlY4Swi8EMPmEYbsDXHF5PxZXlZRy/Oyrb1ufmtiIrK6qmDQENaB2I9dj34c6798XLtgxK3Zybc4jCWNSU3VhALAWLXuQ8giAkLAwn3tfpuGMGnAFnwBnwvwIKcc7RvijAE/V3KdaN/VuAAQCYTJchls6GiwAAAABJRU5ErkJggg==" alt="" width="28" height="31" /></a>
+		<a href="#" class="next"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAfCAYAAAD0ma06AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MjhENUI4RUQ0OThEMTFFMTkzOTdGQTg0ODBEREUxODMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MjhENUI4RUU0OThEMTFFMTkzOTdGQTg0ODBEREUxODMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyOEQ1QjhFQjQ5OEQxMUUxOTM5N0ZBODQ4MERERTE4MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyOEQ1QjhFQzQ5OEQxMUUxOTM5N0ZBODQ4MERERTE4MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtZAlscAAAJVSURBVHja7FZNTxNBGJ6Z/epaWyiwLS1KCuFiOKiBm/FGD/4Kb3rx4BF/gie94skfYRQlSsKdgylt1QrURBI1EGLE0v3q+r6bbtJtZ9rtop76JJNMsjPzvO+7z/tBPc8jUfHy9Zu1S7q+lUqliKKqoW85wyC5rLEO28eD3pDJCKAULigKSeg60TQt/JAc7SlG/jPGhGPCMeGY8N/DL4AvXm1mKKUrjNGBhyUmrYhOWLZNvn3/sVSuVNYcxxbX46BbbL1991ySpbuyrBDG+I4jGRbuZDLZV6xd1yXNZpO0zs+J227zDZakOu1uT+/Le/tweFGF1kMpFV3yDeo1Ct9pAxES81peArpLcf5quD0dn5ysZg1jHx7NoAciUn7ror4xuPqEAsYVZnP4bZf2WnPYaCz8/HVW13Vd4l2OgyuFPHp4CttS389aKBYPPdctWZblYXguCmN6yg8nksHa5arj5o3r2xChR6Zp+v8lLqYyk2QincbtfSQLqZSHj5/qG5bj3MNxQqRcEdKpyyQ7M4Pb0JxDhw1R5Up1hzJ2G0mjighVPj9XwO2zjnckMqHvaf1zFdLlmgID1DBSJJvLz0KRYBjC1Vil7evR0S3HcY5hkUEGYtjzWSMgKw2sNMOA6XL2u1mDeVTjjYRBrnXkj54dXKh4Y7o4tn0H0qXNS5dpUGSQayKykbsFpouqyA9arRbpJu2S/3og/6HFexRUax+egIgeaokEmZxIc+UvBBLGWZVqbfOg8cXrYCPqvVgeBjBN66mmqcsiRf61kPYgA+s06uE/AgwARhUhwp36qU8AAAAASUVORK5CYII=" alt="" width="28" height="31" /></a>	</div>
 	<div id="wrapper">
 
 		<div id="main">
 <form method='post' action='/user'>
 			<div class="section"><h1>Welcome</h1><br>
 				<p>&nbsp&nbsp&nbsp&nbsp用户类型：管理员</p>
-				<p>&nbsp&nbsp&nbsp&nbsp用户数：{userCount}</p>
-				<p>&nbsp&nbsp&nbsp&nbsp Docker版本：{dockersV}</p>
+				<p>&nbsp&nbsp&nbsp&nbsp用户数：{{userCount}}</p>
+				<p>&nbsp&nbsp&nbsp Docker版本：{{dockersV}}</p>
 			</div>
 
 			<div class="section"><h1>镜像</h1><br>{{divImages}}</div>
