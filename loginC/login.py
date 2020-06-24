@@ -26,11 +26,11 @@ class UserHandler(tornado.web.RequestHandler):
     if data[2] == 'admin':
         s = "?username=" + username + "&password=" + password
         url = '''http://10.17.18.101:10046/''' + s
-        self.redirect(url+"&result=no submit")
+        self.redirect(url+"&result=nothing")
     if data[2] == 'user':
         s = "?username=" + username + "&password=" + password
         url='''http://10.17.18.101:10047/''' + s
-        self.redirect(url+"&result=no submit")
+        self.redirect(url+"&result=nothing")
 handlers = [
   (r"/", IndexHandler),
   (r"/user", UserHandler)
