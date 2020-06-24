@@ -634,10 +634,11 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 		<div id="main">
 <form method='post' action='/user'>
-			<div class="section"><h1>Welcome</h1><br>
-				<p>&nbsp&nbsp&nbsp&nbsp用户类型：管理员</p>
-				<p>&nbsp&nbsp&nbsp&nbsp用户数：{{userCount}}</p>
+			<div class="section"><h1>首页</h1><br>
+				<p>&nbsp&nbsp&nbsp&nbsp用户名：{{username}}</p>
+				<p>&nbsp&nbsp&nbsp&nbsp用户类型：{{usertype}}</p>
 				<p>&nbsp&nbsp&nbsp Docker版本：{{dockerV}}</p>
+				<p>&nbsp&nbsp&nbsp 运行结果：{{result}}</p>
 			</div>
 
 			<div class="section"><h1>镜像</h1><br>{{divImages}}</div>

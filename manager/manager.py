@@ -47,6 +47,7 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
+        result= self.get_argument("result")
         divIntroduction=""
         s = "<h2><input type='radio' name='username' value=" + username + " checked>" + " " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         divIntroduction=divIntroduction+s
@@ -56,7 +57,7 @@ class IndexHandler(tornado.web.RequestHandler):
         userCount=cursor.execute(sql)
         data = cursor.fetchone()
         # self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
-
+        usertype=data[2]
         if data[1] != password or data[2]!="admin" :
             self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
             return
@@ -184,7 +185,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
 
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
-                divRun=divRun, divOthers=divOthers,userCount=userCount,dockerV=sshdocker("docker -v"))
+                divRun=divRun, divOthers=divOthers,username=username,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=result)
     client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')
 
 
@@ -225,14 +226,17 @@ class UserHandler(tornado.web.RequestHandler):
             with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
                 f.write(temp)
 
-        self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
-        self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
+        # self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
+        # self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
+        result=""
         for line in ss:
             s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
-            greeting = self.get_argument("greeting", s)
-            self.write(greeting)
-
-        self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
+            # greeting = self.get_argument("greeting", s)
+            # self.write(greeting)
+            result+=s
+        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+result
+        self.redirect(url)
+        # self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
 
 
 
