@@ -61,7 +61,8 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.write(self.get_argument("greeting", "<form method='post' action='/user'>"))################
 
-        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
+        s = "<h2><input type='radio' name='username' value=" + username + " checked>" + "Welcome " + username \
+            +"<input type='radio' name='password' value=" + password + " checked>" + "后台 " + "</h2>"
         self.write(self.get_argument("greeting", s))
 
         self.write(self.get_argument("greeting", "<h2>存在的镜像</h2>"))  ################

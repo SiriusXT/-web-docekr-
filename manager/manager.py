@@ -197,11 +197,12 @@ class UserHandler(tornado.web.RequestHandler):
 
         id = self.get_argument("id")
         print(id)
+        cmd = "docker " + operation + " " + id
         if operation=="pull":
             id=self.get_argument("arg")
         if operation == "run -d -it":
             cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
-        cmd = "docker " + operation + " " + id
+
         if operation=="top":
             cmd=self.get_argument("operation")
         print(id)

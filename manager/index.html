@@ -635,8 +635,10 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 		<div id="main">
 <form method='post' action='/user'>
 			<div class="section"><h1>首页</h1><br>
+
+					<input type='radio' name='username' value={{username}}  style="visibility: none;" checked/>
+					<input type='radio' name='password' value={{password}} style="visibility: none;" checked/>
 				<p>&nbsp&nbsp&nbsp&nbsp用户名：{{username}}</p>
-				<p>&nbsp&nbsp&nbsp&nbsp密码：{{password}}</p>
 				<p>&nbsp&nbsp&nbsp&nbsp用户类型：{{usertype}}</p>
 				<p>&nbsp&nbsp&nbsp Docker版本：{{dockerV}}</p>
 				<p>&nbsp&nbsp&nbsp 运行结果：{{result}}</p>
