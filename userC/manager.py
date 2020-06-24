@@ -60,9 +60,9 @@ class IndexHandler(tornado.web.RequestHandler):
         data = cursor.fetchone()
         # self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
         usertype=data[2]
-        if data[1] != password or data[2]!="admin" :
-            self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
-            return
+        # if data[1] != password or data[2]!="admin" :
+        #     self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
+        #     return
         divImages = ""
         ss = sshdocker("docker images")
         for i in range(len(ss)):
