@@ -70,7 +70,8 @@ class IndexHandler(tornado.web.RequestHandler):
         divImages= divImages +"<table class='cssImages'>"
         for i in range(len(ss)):
             divImages = divImages +"<tr>"
-            divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
+            #divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
+            divImages = divImages + "<th><input type='radio' name='id' value=" + ss[i][0]+":"+ss[i][1] + " checked></th>"
             for j in range(len(ss[0])):
                 if i==0:
                     divImages = divImages + "<th>"
