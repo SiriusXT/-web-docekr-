@@ -240,13 +240,13 @@ class UserHandler(tornado.web.RequestHandler):
 
         # self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         # self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
-        result=""
-        for line in ss:
-            s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
-            # greeting = self.get_argument("greeting", s)
-            # self.write(greeting)
-            result+=s
-        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+result
+        # result=""
+        # for line in ss:
+        #     s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
+        #     # greeting = self.get_argument("greeting", s)
+        #     # self.write(greeting)
+        #     result+=s
+        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
         # self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
 
