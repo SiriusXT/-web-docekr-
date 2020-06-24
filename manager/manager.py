@@ -246,6 +246,7 @@ class UserHandler(tornado.web.RequestHandler):
         #     # greeting = self.get_argument("greeting", s)
         #     # self.write(greeting)
         #     result+=s
+        ss="$$".join(ss)
         url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
         # self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
