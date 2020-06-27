@@ -101,9 +101,9 @@ class IndexHandler(tornado.web.RequestHandler):
         sql = " select * from containers where username  = '" + username + "' "
         count=cursor.execute(sql)
         for i in range(count):
-            data.append(i)
+            data.append(cursor.fetchone())
         cursor.close()
-        print(data)
+        print("data:",data)
         # for i in range(len(data)):
         #     data[i]=data[i].split()
         divContains = ""
