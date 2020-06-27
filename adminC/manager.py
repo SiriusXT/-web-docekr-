@@ -22,7 +22,6 @@ def sshdocker(cmd):
     stdin, stdout, stderr = _ssh.exec_command(cmd)
     ss = ''
     for i in stdout.readlines():
-        print("__stdout.readlines():__",i)
         ss = ss + i
     ss = ss.split("\n")
     ss = ss[:-1]
@@ -104,7 +103,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(count):
             data.append(i)
         cursor.close()
-
+        print(data)
         # for i in range(len(data)):
         #     data[i]=data[i].split()
         divContains = ""
