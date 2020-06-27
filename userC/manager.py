@@ -237,7 +237,7 @@ class UserHandler(tornado.web.RequestHandler):
         if operation=="stopall":
             stopall(client)
             ss=["OK"]
-
+        print("-----------------",ss)
         if operation=="run -d -it":
             # with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
             #     str = f.read()
