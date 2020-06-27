@@ -58,6 +58,7 @@ class IndexHandler(tornado.web.RequestHandler):
         sql = " select * from user where username = '" + username + "' "
         userCount=cursor.execute(sql)
         data = cursor.fetchone()
+        cursor.close()
         # self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
         usertype=data[2]
         if data[1] != password or data[2]!="admin" :
@@ -86,17 +87,26 @@ class IndexHandler(tornado.web.RequestHandler):
         divImages = divImages +"</table>"
 
 
+
         divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<p><input type='submit' value='submit'></p>"
 
-        with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
-            data = f.read()
-        data=data.split("\n")
-        for i in range(len(data)):
-            data[i]=data[i].split()
+        # with open('/var/www/py/py/data/data.txt', "r") as f:  ##获取所属信息
+        #     data = f.read()
+        # data=data.split("\n")
+        data=[]
+        cursor = db.cursor()
+        sql = " select * from containers where username  = '" + username + "' "
+        count=cursor.execute(sql)
+        for i in range(count):
+            data.append(i)
+        cursor.close()
+
+        # for i in range(len(data)):
+        #     data[i]=data[i].split()
         divContains = ""
         divContains=divContains+"<table class='cssContains'>"
         ss = sshdocker("docker ps -a")
@@ -192,6 +202,7 @@ class IndexHandler(tornado.web.RequestHandler):
         resultresult=""
         for line in result:
             resultresult+="<p>"+line+"</p>"
+        db.close()############################################################
         self.render("index.html", divIntroduction=divIntroduction, divImages=divImages, divContains=divContains,
                 divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=resultresult,
                 imagesNum=len(getimages(client)),
@@ -201,6 +212,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
+        db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
         username = self.get_argument("username")
         password = self.get_argument("password")
         operation = self.get_argument("op")
@@ -224,22 +236,40 @@ class UserHandler(tornado.web.RequestHandler):
         if operation=="stopall":
             stopall(client)
             ss=["OK"]
+
         if operation=="run -d -it":
-            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
-                str = f.read()
-            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
-                f.write(str+"\n"+ss[0]+" "+username)
+            # with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+            #     str = f.read()
+            # with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+            #     f.write(str+"\n"+ss[0]+" "+username)
+            data = []
+            cursor = db.cursor()
+            # sql = " select * from containers where username  = '" + username + "' "
+            sql = """INSERT INTO containers(id,
+                     username , ip)
+                     VALUES ("""+ss[0][0:12]+""", """+username+""", "1")"""
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+
+
         if operation=="rm":
-            with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
-                data = f.read()
-            print(data)
-            temp=""
-            data = data.split("\n")
-            for i in data:
-                if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
-                    temp=temp+i+"\n"
-            with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
-                f.write(temp)
+            # with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+            #     data = f.read()
+            # print(data)
+            # temp=""
+            # data = data.split("\n")
+            # for i in data:
+            #     if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
+            #         temp=temp+i+"\n"
+            # with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+            #     f.write(temp)
+            cursor = db.cursor()
+            sql = "DELETE FROM containers WHERE id = " +id[:12]
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+
 
         # self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
         # self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
