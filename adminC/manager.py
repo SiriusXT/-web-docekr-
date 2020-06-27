@@ -89,7 +89,9 @@ class IndexHandler(tornado.web.RequestHandler):
 
         divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
-        divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
+        # divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='ip' value='210'>" + "210" + "</label>"
+        # divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='ip' value='240'>" + "240" + "</label>"
+        divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<p><input type='submit' value='submit'></p>"
 
@@ -98,7 +100,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # data=data.split("\n")
         data=[]
         cursor = db.cursor()
-        sql = " select * from containers where username  = '" + username + "' "
+        sql = " select * from containers"
         count=cursor.execute(sql)
         for i in range(count):
             data.append(cursor.fetchone())
