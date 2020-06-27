@@ -173,8 +173,8 @@ class IndexHandler(tornado.web.RequestHandler):
                 if data_ != [] and ss_ != [] and ss_.split()[0][0:10] == data_[0][0:10]:
                     temp.append(ss_ + "     " + data_[1])
                     f = 1
-            if f == 0 and ss_ != []:
-                temp.append(ss_ + "     " + "unknow")
+            # if f == 0 and ss_ != []:
+            #     temp.append(ss_ + "     " + "unknow")
         ss = temp
         ######################################
         for i in  range(len(ss)):
