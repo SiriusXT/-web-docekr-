@@ -247,7 +247,7 @@ class UserHandler(tornado.web.RequestHandler):
             # sql = " select * from containers where username  = '" + username + "' "
             sql = """INSERT INTO containers(id,
                      username , ip)
-                     VALUES ('"""+ss[0][0:12]+"""', """+username+""", "1")"""
+                     VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
             print(sql)
             cursor.execute(sql)
             db.commit()
