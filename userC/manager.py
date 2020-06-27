@@ -182,7 +182,6 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = divRun +"</table>"
 
         divRun = divRun +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
-        divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
 
         divOthers=""
@@ -196,8 +195,6 @@ class IndexHandler(tornado.web.RequestHandler):
                 divRun=divRun, divOthers=divOthers,username=username,password=password,dockerV=sshdocker("docker -v")[0],usertype=usertype,result=resultresult,
                 imagesNum=len(getimages(client)),
         )
-
-
 
 class UserHandler(tornado.web.RequestHandler):
     def post(self):

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7b8eff16-15f5-489f-8357-df4eb4c92f5f" name="315office" url="http://10.0.1.13">
+        <fileTransfer rootFolder="/mnt/study/workspcae/ss" host="10.0.1.13" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
