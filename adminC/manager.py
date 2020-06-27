@@ -265,7 +265,8 @@ class UserHandler(tornado.web.RequestHandler):
             # with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
             #     f.write(temp)
             cursor = db.cursor()
-            sql = "DELETE FROM containers WHERE id = " +id[:12]
+            sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
+            print(sql)
             cursor.execute(sql)
             db.commit()
             cursor.close()
