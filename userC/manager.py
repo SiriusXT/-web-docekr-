@@ -354,7 +354,7 @@ class UserHandler(tornado.web.RequestHandler):
         ss=k
         print(ss)
         # ss="$$".join(ss)
-        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
+        url="http://10.17.18.101:10047/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
 
 handlers = [
