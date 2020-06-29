@@ -224,7 +224,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = divRun +"</table>"
         divRun += "<br>参数:<br><input type='text' name='runarg'>"
         divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='exec'>" + "执行" + "</label>"
-        divRun = divRun +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
+        divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         # divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
         divRun = divRun +"<p><input type='submit' value='submit'></p>"
 
