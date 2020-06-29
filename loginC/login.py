@@ -22,7 +22,7 @@ class UserHandler(tornado.web.RequestHandler):
     cursor.execute(sql)
     data = cursor.fetchone()
     if data[1] != password:
-        self.redirect("http://http://10.17.18.101:10045/")
+        self.redirect("http://10.17.18.101:10045/")
     if data[2] == 'admin':
         s = "?username=" + username + "&password=" + password
         url = '''http://10.17.18.101:10046/''' + s

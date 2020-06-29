@@ -34,13 +34,15 @@ def getimages(client):
     return images
 
 
-def stopall(clinet):
-    for container in clinet.containers.list():
+def stopall(client):
+    for container in client.containers.list():
         container.stop()
 
 
-def stop(clinet, container):
-    container.stop()
+def stop(client, id):
+    for container in client.containers.list():
+        if str(container).split()[1][:-1]==id:
+            container.stop()
 
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -297,7 +299,9 @@ class UserHandler(tornado.web.RequestHandler):
             runid = temp
             for id in runid:
                 cmd = "docker " + operation + " " + id
-                ss .append (sshdocker(cmd))
+                # xx=sshdocker(cmd)
+                xx=stop(client,id)
+                ss .append (xx)
         elif operation == "top":
             cmd = self.get_argument("operation")
             ss += sshdocker(cmd)
