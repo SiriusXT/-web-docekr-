@@ -375,9 +375,14 @@ class UserHandler(tornado.web.RequestHandler):
                     k+=j+"$$"
             else:
                 k+=i
-        ss=k.replace("r","!")
+        ss=k
         print(ss)
-        # ss="$$".join(ss)
+        if operation == "logs":
+            for line in ss:
+                s = "<p> " + line.replace(' ', '&nbsp') + "</p>"
+                greeting = self.get_argument("greeting", s)
+                self.write(greeting)
+            return
         url="http://10.17.18.101:10047/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
 
