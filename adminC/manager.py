@@ -228,15 +228,26 @@ class UserHandler(tornado.web.RequestHandler):
             for id in imagesid:
                 if operation == "run -d -it":
                     cmd = "docker " + operation + " " + self.get_argument("arg") + " " + id
-                    ss .append( sshdocker(cmd))
+                    xx=sshdocker(cmd)
+                    ss .append( xx)
+                    #mysql
+                    cursor = db.cursor()
+                    sql = """INSERT INTO containers(id,
+                                         username , ip)
+                                         VALUES ('""" + xx[0][0:12] + """', '""" + username + """', "1")"""
+                    print(sql)
+                    cursor.execute(sql)
+                    db.commit()
+                    cursor.close()
+                    #mysql
                 if operation=="rmi -f":
                     cmd = "docker " + operation + " " + id
                     ss .append (sshdocker(cmd))
-        if operation=="pull":
+        elif operation=="pull":
             id=self.get_argument("arg")
             cmd = "docker " + operation + " " + id
             ss .append (sshdocker(cmd))
-        if operation == "start" or operation == "rm" or operation == "logs":
+        elif operation == "start" or operation == "rm" or operation == "logs":
             containsid = self.request.arguments['containsid']
             temp = []
             for i in containsid:
@@ -246,7 +257,16 @@ class UserHandler(tornado.web.RequestHandler):
             for id in containsid:
                 cmd = "docker " + operation + " " + id
                 ss .append (sshdocker(cmd))
-        if operation == "stop":
+                #mysql{
+                if operation == "rm":
+                    cursor = db.cursor()
+                    sql = "DELETE FROM containers WHERE id = '" + id[:12] + "'"
+                    print(sql)
+                    cursor.execute(sql)
+                    db.commit()
+                    cursor.close()
+                #mysql}
+        elif operation == "stop":
             runid = self.request.arguments['runid']
             temp = []
             for i in runid:
@@ -256,12 +276,14 @@ class UserHandler(tornado.web.RequestHandler):
             for id in runid:
                 cmd = "docker " + operation + " " + id
                 ss .append (sshdocker(cmd))
-        if operation == "top":
+        elif operation == "top":
             cmd = self.get_argument("operation")
             ss += sshdocker(cmd)
-        if operation=="stopall":
+        elif operation=="stopall":
             stopall(client)
             ss .append(["OK"])
+        else :
+            print("未知操作：",operation)
         # id = self.get_argument("id")
         # print(id)
 
@@ -280,25 +302,25 @@ class UserHandler(tornado.web.RequestHandler):
         #     stopall(client)
         #     ss=["OK"]
 
-        if operation=="run -d -it":
-            data = []
-            cursor = db.cursor()
-            sql = """INSERT INTO containers(id,
-                     username , ip)
-                     VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
-            print(sql)
-            cursor.execute(sql)
-            db.commit()
-            cursor.close()
+        # if operation=="run -d -it":
+        #     data = []
+        #     cursor = db.cursor()
+        #     sql = """INSERT INTO containers(id,
+        #              username , ip)
+        #              VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
+        #     print(sql)
+        #     cursor.execute(sql)
+        #     db.commit()
+        #     cursor.close()
 
 
-        if operation=="rm":
-            cursor = db.cursor()
-            sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
-            print(sql)
-            cursor.execute(sql)
-            db.commit()
-            cursor.close()
+        # if operation=="rm":
+        #     cursor = db.cursor()
+        #     sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
+        #     print(sql)
+        #     cursor.execute(sql)
+        #     db.commit()
+        #     cursor.close()
         print(ss)
         k=""
         for i in ss:
