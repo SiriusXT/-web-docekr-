@@ -174,7 +174,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = ""
         divRun+="<table class='cssRun'>"
         divRun+="<tr>"
-        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
+        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " style='display:none'></th>"
         ss = sshdocker("docker ps")
 
         temp = ss[0].split()
@@ -202,7 +202,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divRun = divRun +"<tr>"
-            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + " style='display:none'></th>"
+            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + "></th>"
             for j in range(len(ss[i])):
                 divRun = divRun + "<td>"
                 divRun = divRun + ss[i][j]
