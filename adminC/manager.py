@@ -183,6 +183,7 @@ class IndexHandler(tornado.web.RequestHandler):
         temp = ss[0].replace("CONTAINER ID", "CONTAINERID").split()
         for i in temp:
             divRun += "<th>" + i + "</th>"
+        divRun = divRun + "<th>user</th>"
         divRun = divRun + "</tr>"
 
         ss = ss[1:]
