@@ -40,9 +40,12 @@ def stopall(client):
 
 
 def stop(client, id):
+    s=[]
     for container in client.containers.list():
         if str(container).split()[1][:-1]==id:
             container.stop()
+            s.append(id)
+    return s
 
 
 class IndexHandler(tornado.web.RequestHandler):

@@ -1,1 +1,3 @@
-a=[<Container: f267dfc606>, <Container: 70c72110ea>, <Container: 33f60d0299>, <Container: 4682f238f0>, <Container: 8969e96591>]
+a=[]
+a.append("1")
+print(a)
