@@ -66,12 +66,12 @@ class IndexHandler(tornado.web.RequestHandler):
         divImages = ""
         ss = sshdocker("docker images")
         for i in range(len(ss)):
-            ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
-            ss[i]=ss[i].split()
+            if i==0:
+                ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
+                ss[i] = ss[i].split()
             if i!=0:
                 print(ss[i])
                 ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
-                print("++",ss[i])
                 ss[i]=ss[i].split()
         divImages= divImages +"<table class='cssImages'>"
 
