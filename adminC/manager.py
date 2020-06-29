@@ -69,6 +69,7 @@ class IndexHandler(tornado.web.RequestHandler):
             ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
             ss[i]=ss[i].split()
             if i!=0:
+                print(ss[i])
                 ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
                 print("++",ss[i])
                 ss[i]=ss[i].split()
