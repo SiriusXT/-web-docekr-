@@ -69,9 +69,23 @@ class IndexHandler(tornado.web.RequestHandler):
             ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
             ss[i]=ss[i].split()
         divImages= divImages +"<table class='cssImages'>"
-        for i in range(len(ss)):
+
+        for i in range(0,1):
             divImages = divImages +"<tr>"
-            #divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
+            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " style='display:none'></th>"
+            for j in range(len(ss[0])):
+                if i==0:
+                    divImages = divImages + "<th>"
+                    divImages = divImages + ss[i][j]
+                    divImages = divImages + "</th>"
+                    continue
+                divImages = divImages +"<td>"
+                divImages = divImages + ss[i][j]
+                divImages = divImages + "</td>"
+            divImages = divImages + "</tr>"
+
+        for i in range(1,len(ss)):
+            divImages = divImages +"<tr>"
             divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " ></th>"
             for j in range(len(ss[0])):
                 if i==0:
@@ -83,9 +97,13 @@ class IndexHandler(tornado.web.RequestHandler):
                 divImages = divImages + ss[i][j]
                 divImages = divImages + "</td>"
             divImages = divImages + "</tr>"
+
+
+
+
+
+
         divImages = divImages +"</table>"
-
-
 
         divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f'>" + "删除" + "</label>"
@@ -113,7 +131,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = sshdocker("docker ps -a")
 
         divContains = divContains + "<tr>"
-        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
+        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " style='display:none'></th>"
         temp=ss[0].replace("CONTAINER ID","CONTAINERID").split()
         for i in temp:
             divContains +="<th>"+i+"</th>"
@@ -184,7 +202,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divRun = divRun +"<tr>"
-            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + " ></th>"
+            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + " style='display:none'></th>"
             for j in range(len(ss[i])):
                 divRun = divRun + "<td>"
                 divRun = divRun + ss[i][j]
@@ -324,8 +342,11 @@ class UserHandler(tornado.web.RequestHandler):
         print(ss)
         k=""
         for i in ss:
-            for j in i:
-                k+=j+"$$"
+            if type(i)==list:
+                for j in i:
+                    k+=j+"$$"
+            else:
+                k+=i
         ss=k
         print(ss)
         # ss="$$".join(ss)
