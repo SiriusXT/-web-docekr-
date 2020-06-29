@@ -370,7 +370,11 @@ class UserHandler(tornado.web.RequestHandler):
         print(ss)
         if operation == "logs":
             for line in ss:
-                s = "<p> " + line.replace(' ', '&nbsp') + "</p>"
+                if type(line) == list:
+                    for j in line:
+                        s = "<p> " + j.replace(' ', '&nbsp') + "</p>"
+                else :
+                    s = "<p> " + line.replace(' ', '&nbsp') + "</p>"
                 greeting = self.get_argument("greeting", s)
                 self.write(greeting)
             return
