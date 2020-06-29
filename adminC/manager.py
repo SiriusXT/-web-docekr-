@@ -300,7 +300,11 @@ class UserHandler(tornado.web.RequestHandler):
             db.commit()
             cursor.close()
         print(ss)
-        ss="$$".join(ss)
+        k=""
+        for i in ss:
+            for j in i:
+                k+=j+"$$"
+        # ss="$$".join(ss)
         url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
 
