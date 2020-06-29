@@ -162,7 +162,7 @@ class IndexHandler(tornado.web.RequestHandler):
                     temp.append(ss_+"     "+data_[1])
                     f=1
             if f==0 and ss_ != []  :
-                    temp.append(ss_+"     "+"unknow")
+                    temp.append(ss_+"     "+"local")
         ss = temp
         for i in  range(len(ss)):
             ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
@@ -208,7 +208,7 @@ class IndexHandler(tornado.web.RequestHandler):
                     temp.append(ss_ + "     " + data_[1])
                     f = 1
             if f == 0 and ss_ != []:
-                temp.append(ss_ + "     " + "unknow")
+                temp.append(ss_ + "     " + "local")
         ss = temp
         ######################################
         for i in  range(len(ss)):
