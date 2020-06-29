@@ -344,7 +344,7 @@ class UserHandler(tornado.web.RequestHandler):
                     k+=j+"$$"
             else:
                 k+=i
-        ss=k.replace("\r","|r")
+        ss=k.replace("r"," r")
         print(ss)
         # ss="$$".join(ss)
         url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
