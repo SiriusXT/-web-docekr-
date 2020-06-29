@@ -179,7 +179,8 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " '></th>"
         ss = sshdocker("docker ps")
 
-        temp = ss[0].split()
+        # temp = ss[0].split()
+        temp = ss[0].replace("CONTAINER ID", "CONTAINERID").split()
         for i in temp:
             divRun += "<th>" + i + "</th>"
         divRun = divRun + "</tr>"
