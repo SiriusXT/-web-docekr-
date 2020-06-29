@@ -49,7 +49,7 @@ def stop(client, id):
 
 def exec(id,arg):
     # cmd=docker exec f267dfc6066a /bin/bash -c "ls"
-    cmd='docker exec '+id+' /bin/bash -c '+arg
+    cmd='docker exec '+id+' /bin/bash -c '+"'"+arg+"'"
     return sshdocker(cmd)
 
 class IndexHandler(tornado.web.RequestHandler):
