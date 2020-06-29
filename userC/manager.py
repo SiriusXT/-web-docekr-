@@ -77,7 +77,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
         for i in range(0,1):
             divImages = divImages +"<tr>"
-            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " '></th>"
+            divImages = divImages + "<th><input style='display:none' type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " '></th>"
             for j in range(len(ss[0])):
                 if i==0:
                     divImages = divImages + "<th>"
@@ -133,7 +133,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = sshdocker("docker ps -a")
 
         divContains = divContains + "<tr>"
-        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " '></th>"
+        divContains+="<th><input type='radio' style='display:none' name='id' value=" +  "CONTAINERID"  + " '></th>"
         temp=ss[0].replace("CONTAINER ID","CONTAINERID").split()
         for i in temp:
             divContains +="<th>"+i+"</th>"
@@ -176,7 +176,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = ""
         divRun+="<table class='cssRun'>"
         divRun+="<tr>"
-        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " '></th>"
+        divRun+="<th><input type='radio' style='display:none' name='id' value=" +  "CONTAINERID"  + " '></th>"
         ss = sshdocker("docker ps")
 
         # temp = ss[0].split()
