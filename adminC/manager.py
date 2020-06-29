@@ -324,7 +324,7 @@ class UserHandler(tornado.web.RequestHandler):
             runid = temp
             for id in runid:
                 cmd = "docker " + operation + " " + id
-                # xx=sshdocker(cmd)l
+                # xx=sshdocker(cmd)
                 xx=exec(id,self.get_argument("runarg"))
                 ss .append (xx)
         elif operation == "top":
@@ -344,7 +344,7 @@ class UserHandler(tornado.web.RequestHandler):
                     k+=j+"$$"
             else:
                 k+=i
-        ss=k.replace("r"," r")
+        ss=k.replace("r","!")
         print(ss)
         # ss="$$".join(ss)
         url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
