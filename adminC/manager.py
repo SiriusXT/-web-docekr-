@@ -33,19 +33,26 @@ def getimages(client):
     images = client.images.list()
     return images
 
+def pull(client,id):
+    image = client.images.pull(id)
+    return ['pull succeed！']
 
 def stopall(client):
     for container in client.containers.list():
         container.stop()
-
 
 def stop(client, id):
     s=[]
     for container in client.containers.list():
         if str(container).split()[1][:10]==id[0:10]:
             container.stop()
-            s.append(id)
+            s.append("stop "+id)
     return s
+
+def exec(id,arg):
+    # cmd=docker exec f267dfc6066a /bin/bash -c "ls"
+    cmd='docker exec '+id+' /bin/bash -c '+arg
+    return sshdocker(cmd)
 
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -218,10 +225,12 @@ class IndexHandler(tornado.web.RequestHandler):
                 divRun = divRun + "</td>"
             divRun = divRun + "</tr>"
         divRun = divRun +"</table>"
+        divRun+="<br>参数:<br><input type='text' name='runarg'>"
+        divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='exec'>" + "执行" + "</label>"
+        divRun = divRun +"&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
 
-        divRun = divRun +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
         divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
-        divRun = divRun +"<input type='submit' value='submit'>"
+        divRun = divRun +"<p><input type='submit' value='submit'></p>"
 
         divOthers=""
         divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
@@ -272,8 +281,9 @@ class UserHandler(tornado.web.RequestHandler):
                     ss .append (sshdocker(cmd))
         elif operation=="pull":
             id=self.get_argument("arg")
-            cmd = "docker " + operation + " " + id
-            ss .append (sshdocker(cmd))
+            # cmd = "docker " + operation + " " + id
+            pull(client,id)
+            # ss .append (sshdocker(cmd))
         elif operation == "start" or operation == "rm" or operation == "logs":
             containsid = self.request.arguments['containsid']
             temp = []
@@ -305,51 +315,27 @@ class UserHandler(tornado.web.RequestHandler):
                 # xx=sshdocker(cmd)
                 xx=stop(client,id)
                 ss .append (xx)
+        elif operation == "exec":####################################################
+            runid = self.request.arguments['runid']
+            temp = []
+            for i in runid:
+                temp.append(str(i).split("'")[1])
+                print('runid:', str(i).split("'")[1])
+            runid = temp
+            for id in runid:
+                cmd = "docker " + operation + " " + id
+                # xx=sshdocker(cmd)
+                xx=exec(id,self.get_argument("runarg"))
+                ss .append (xx)
         elif operation == "top":
             cmd = self.get_argument("operation")
             ss += sshdocker(cmd)
         elif operation=="stopall":
             stopall(client)
-            ss .append(["OK"])
+            ss .append(["stop all ,succeed"])
         else :
             print("未知操作：",operation)
-        # id = self.get_argument("id")
-        # print(id)
 
-        # if operation=="pull":
-        #     id=self.get_argument("arg")
-        # cmd = "docker " + operation + " " + id
-        # if operation == "run -d -it":
-        #     cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
-
-        # if operation=="top":
-        #     cmd=self.get_argument("operation")
-        # print(id)
-
-        # ss=sshdocker(cmd)
-        # if operation=="stopall":
-        #     stopall(client)
-        #     ss=["OK"]
-
-        # if operation=="run -d -it":
-        #     data = []
-        #     cursor = db.cursor()
-        #     sql = """INSERT INTO containers(id,
-        #              username , ip)
-        #              VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
-        #     print(sql)
-        #     cursor.execute(sql)
-        #     db.commit()
-        #     cursor.close()
-
-
-        # if operation=="rm":
-        #     cursor = db.cursor()
-        #     sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
-        #     print(sql)
-        #     cursor.execute(sql)
-        #     db.commit()
-        #     cursor.close()
         print(ss)
         k=""
         for i in ss:
