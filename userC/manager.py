@@ -368,6 +368,12 @@ class UserHandler(tornado.web.RequestHandler):
         #     db.commit()
         #     cursor.close()
         print(ss)
+        if operation == "logs":
+            for line in ss:
+                s = "<p> " + line.replace(' ', '&nbsp') + "</p>"
+                greeting = self.get_argument("greeting", s)
+                self.write(greeting)
+            return
         k=""
         for i in ss:
             if type(i)==list:
@@ -377,12 +383,7 @@ class UserHandler(tornado.web.RequestHandler):
                 k+=i
         ss=k
         print(ss)
-        if operation == "logs":
-            for line in ss:
-                s = "<p> " + line.replace(' ', '&nbsp') + "</p>"
-                greeting = self.get_argument("greeting", s)
-                self.write(greeting)
-            return
+
         url="http://10.17.18.101:10047/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
 
