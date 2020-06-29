@@ -72,7 +72,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(len(ss)):
             divImages = divImages +"<tr>"
             #divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
-            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " checked></th>"
+            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " ></th>"
             for j in range(len(ss[0])):
                 if i==0:
                     divImages = divImages + "<th>"
@@ -140,7 +140,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
-            divContains = divContains + "<th><input type='checkbox' name='containsid' value=" + ss[i][0] + " checked></th>"
+            divContains = divContains + "<th><input type='checkbox' name='containsid' value=" + ss[i][0] + " ></th>"
             for j in range(len(ss[i])):
                 divContains = divContains + "<td>"
                 divContains = divContains + ss[i][j]
@@ -184,7 +184,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divRun = divRun +"<tr>"
-            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + " checked></th>"
+            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + " ></th>"
             for j in range(len(ss[i])):
                 divRun = divRun + "<td>"
                 divRun = divRun + ss[i][j]
@@ -299,7 +299,7 @@ class UserHandler(tornado.web.RequestHandler):
             cursor.execute(sql)
             db.commit()
             cursor.close()
-
+        print(ss)
         ss="$$".join(ss)
         url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
