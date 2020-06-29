@@ -68,6 +68,10 @@ class IndexHandler(tornado.web.RequestHandler):
         for i in range(len(ss)):
             ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
             ss[i]=ss[i].split()
+        # for i in  range(len(ss)):
+            ss[i]=ss[i].replace("  ","##").replace(" ","_").replace("#"," ").replace(" _","  ").replace("_ ","  ")
+            print("++",ss[i])
+            ss[i]=ss[i].split()
         divImages= divImages +"<table class='cssImages'>"
 
         for i in range(0,1):
@@ -88,6 +92,7 @@ class IndexHandler(tornado.web.RequestHandler):
             divImages = divImages +"<tr>"
             divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " ></th>"
             for j in range(len(ss[0])):
+
                 if i==0:
                     divImages = divImages + "<th>"
                     divImages = divImages + ss[i][j]
