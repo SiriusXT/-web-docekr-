@@ -61,7 +61,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # self.write(self.get_argument("greeting", "<h2>Docekr</h2>"))
         usertype=data[2]
         if data[1] != password  :
-            self.write(self.get_argument("greeting", "<h2>您不是管理员或非法访问</h2>"))
+            self.write(self.get_argument("greeting", "<h2>非法访问</h2>"))
             return
         divImages = ""
         ss = sshdocker("docker images")
@@ -69,10 +69,10 @@ class IndexHandler(tornado.web.RequestHandler):
             ss[i]=ss[i].replace("IMAGE ID","IMAGEID")
             ss[i]=ss[i].split()
         divImages= divImages +"<table class='cssImages'>"
-
-        for i in range(0,1):
+        for i in range(len(ss)):
             divImages = divImages +"<tr>"
-            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " style='display:none'></th>"
+            #divImages = divImages+"<th><input type='radio' name='id' value="+ss[i][2]+" checked></th>"
+            divImages = divImages + "<th><input type='radio' name='id' value=" + ss[i][0]+":"+ss[i][1] + " checked></th>"
             for j in range(len(ss[0])):
                 if i==0:
                     divImages = divImages + "<th>"
@@ -83,30 +83,15 @@ class IndexHandler(tornado.web.RequestHandler):
                 divImages = divImages + ss[i][j]
                 divImages = divImages + "</td>"
             divImages = divImages + "</tr>"
-
-        for i in range(1,len(ss)):
-            divImages = divImages +"<tr>"
-            divImages = divImages + "<th><input type='checkbox' name='imagesid' value=" + ss[i][0]+":"+ss[i][1] + " ></th>"
-            for j in range(len(ss[0])):
-                if i==0:
-                    divImages = divImages + "<th>"
-                    divImages = divImages + ss[i][j]
-                    divImages = divImages + "</th>"
-                    continue
-                divImages = divImages +"<td>"
-                divImages = divImages + ss[i][j]
-                divImages = divImages + "</td>"
-            divImages = divImages + "</tr>"
-
-
-
         divImages = divImages +"</table>"
 
+
+
         divImages = divImages +"<br>参数:<br><input type='text' name='arg'>"
-        divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f'>" + "删除" + "</label>"
+        # divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='rmi -f '>" + "删除" + "</label>"
         # divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='ip' value='210'>" + "210" + "</label>"
         # divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='ip' value='240'>" + "240" + "</label>"
-        divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
+        # divImages = divImages + "&nbsp&nbsp<label><input type='radio' name='op' value='pull'>" + "下载" + "</label>"
         divImages = divImages +"&nbsp&nbsp<label><input type='radio' name='op' value='run -d -it'>" + "创建容器" + "</label>"
         divImages = divImages +"<p><input type='submit' value='submit'></p>"
 
@@ -115,7 +100,7 @@ class IndexHandler(tornado.web.RequestHandler):
         # data=data.split("\n")
         data=[]
         cursor = db.cursor()
-        sql = " select * from containers"
+        sql = " select * from containers where username  = '" + username + "' "
         count=cursor.execute(sql)
         for i in range(count):
             data.append(cursor.fetchone())
@@ -128,7 +113,7 @@ class IndexHandler(tornado.web.RequestHandler):
         ss = sshdocker("docker ps -a")
 
         divContains = divContains + "<tr>"
-        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " style='display:none'></th>"
+        divContains+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
         temp=ss[0].replace("CONTAINER ID","CONTAINERID").split()
         for i in temp:
             divContains +="<th>"+i+"</th>"
@@ -155,7 +140,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divContains = divContains +"<tr>"
-            divContains = divContains + "<th><input type='checkbox' name='containsid' value=" + ss[i][0] + " ></th>"
+            divContains = divContains + "<th><input type='radio' name='id' value=" + ss[i][0] + " checked></th>"
             for j in range(len(ss[i])):
                 divContains = divContains + "<td>"
                 divContains = divContains + ss[i][j]
@@ -171,7 +156,7 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = ""
         divRun+="<table class='cssRun'>"
         divRun+="<tr>"
-        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + " style='display:none'></th>"
+        divRun+="<th><input type='radio' name='id' value=" +  "CONTAINERID"  + "></th>"
         ss = sshdocker("docker ps")
 
         temp = ss[0].split()
@@ -199,7 +184,7 @@ class IndexHandler(tornado.web.RequestHandler):
                 ss[i].insert(5,"noport")
         for i in range(len(ss)):
             divRun = divRun +"<tr>"
-            divRun = divRun + "<th><input type='checkbox' name='runid' value=" + ss[i][0] + "></th>"
+            divRun = divRun + "<th><input type='radio' name='id' value=" + ss[i][0] + " checked></th>"
             for j in range(len(ss[i])):
                 divRun = divRun + "<td>"
                 divRun = divRun + ss[i][j]
@@ -208,12 +193,12 @@ class IndexHandler(tornado.web.RequestHandler):
         divRun = divRun +"</table>"
 
         divRun = divRun +"<br>&nbsp&nbsp<label><input type='radio' name='op' value='stop'>" + "停止" + "</label>"
-        divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
+        # divRun = divRun + "&nbsp&nbsp<label><input type='radio' name='op' value='stopall'>" + "停止所有" + "</label>"
         divRun = divRun +"<input type='submit' value='submit'>"
 
         divOthers=""
-        divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
-        divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
+        # divOthers = divOthers + "&nbsp&nbsp<p><input type='radio' name='op' value='top'>" + "高级功能：" + "<input type='text' name='operation'></p>"
+        # divOthers = divOthers + "<p><input type='submit' value='submit'></p>"
         result=result.split("$$")
         resultresult=""
         for line in result:
@@ -224,6 +209,8 @@ class IndexHandler(tornado.web.RequestHandler):
                 imagesNum=len(getimages(client)),
         )
 
+
+
 class UserHandler(tornado.web.RequestHandler):
     def post(self):
         db = pymysql.connect(host='172.17.0.3', port=8004, user='root', passwd='123', db='docker', charset='utf8')
@@ -231,124 +218,76 @@ class UserHandler(tornado.web.RequestHandler):
         password = self.get_argument("password")
         operation = self.get_argument("op")
         client = docker.DockerClient(base_url='tcp://192.168.122.240:2375')  ##############
-        ss = []
-        if operation=="rmi -f" or operation=="run -d -it":
-            imagesid = self.request.arguments['imagesid']
-            temp=[]
-            for i in imagesid:
-                temp.append(str(i).split("'")[1])
-                print('imagesid:',str(i).split("'")[1])
-            imagesid=temp
-            print('imagesid:',imagesid)
-            for id in imagesid:
-                if operation == "run -d -it":
-                    cmd = "docker " + operation + " " + self.get_argument("arg") + " " + id
-                    xx=sshdocker(cmd)
-                    ss .append( xx)
-                    #mysql
-                    cursor = db.cursor()
-                    sql = """INSERT INTO containers(id,
-                                         username , ip)
-                                         VALUES ('""" + xx[0][0:12] + """', '""" + username + """', "1")"""
-                    print(sql)
-                    cursor.execute(sql)
-                    db.commit()
-                    cursor.close()
-                    #mysql
-                if operation=="rmi -f":
-                    cmd = "docker " + operation + " " + id
-                    ss .append (sshdocker(cmd))
-        elif operation=="pull":
+
+        id = self.get_argument("id")
+        print(id)
+
+        if operation=="pull":
             id=self.get_argument("arg")
-            cmd = "docker " + operation + " " + id
-            ss .append (sshdocker(cmd))
-        elif operation == "start" or operation == "rm" or operation == "logs":
-            containsid = self.request.arguments['containsid']
-            temp = []
-            for i in containsid:
-                temp.append(str(i).split("'")[1])
-                print('containsid:', str(i).split("'")[1])
-            containsid = temp
-            for id in containsid:
-                cmd = "docker " + operation + " " + id
-                ss .append (sshdocker(cmd))
-                #mysql{
-                if operation == "rm":
-                    cursor = db.cursor()
-                    sql = "DELETE FROM containers WHERE id = '" + id[:12] + "'"
-                    print(sql)
-                    cursor.execute(sql)
-                    db.commit()
-                    cursor.close()
-                #mysql}
-        elif operation == "stop":
-            runid = self.request.arguments['runid']
-            temp = []
-            for i in runid:
-                temp.append(str(i).split("'")[1])
-                print('runid:', str(i).split("'")[1])
-            runid = temp
-            for id in runid:
-                cmd = "docker " + operation + " " + id
-                ss .append (sshdocker(cmd))
-        elif operation == "top":
-            cmd = self.get_argument("operation")
-            ss += sshdocker(cmd)
-        elif operation=="stopall":
+        cmd = "docker " + operation + " " + id
+        if operation == "run -d -it":
+            cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
+
+        if operation=="top":
+            cmd=self.get_argument("operation")
+        print(id)
+
+
+        ss=sshdocker(cmd)
+        if operation=="stopall":
             stopall(client)
-            ss .append(["OK"])
-        else :
-            print("未知操作：",operation)
-        # id = self.get_argument("id")
-        # print(id)
-
-        # if operation=="pull":
-        #     id=self.get_argument("arg")
-        # cmd = "docker " + operation + " " + id
-        # if operation == "run -d -it":
-        #     cmd="docker "+operation+ " " + self.get_argument("arg")+" "+id
-
-        # if operation=="top":
-        #     cmd=self.get_argument("operation")
-        # print(id)
-
-        # ss=sshdocker(cmd)
-        # if operation=="stopall":
-        #     stopall(client)
-        #     ss=["OK"]
-
-        # if operation=="run -d -it":
-        #     data = []
-        #     cursor = db.cursor()
-        #     sql = """INSERT INTO containers(id,
-        #              username , ip)
-        #              VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
-        #     print(sql)
-        #     cursor.execute(sql)
-        #     db.commit()
-        #     cursor.close()
+            ss=["OK"]
+        print("-----------------",ss)
+        if operation=="run -d -it":
+            # with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+            #     str = f.read()
+            # with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+            #     f.write(str+"\n"+ss[0]+" "+username)
+            data = []
+            cursor = db.cursor()
+            # sql = " select * from containers where username  = '" + username + "' "
+            sql = """INSERT INTO containers(id,
+                     username , ip)
+                     VALUES ('"""+ss[0][0:12]+"""', '"""+username+"""', "1")"""
+            print(sql)
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
 
 
-        # if operation=="rm":
-        #     cursor = db.cursor()
-        #     sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
-        #     print(sql)
-        #     cursor.execute(sql)
-        #     db.commit()
-        #     cursor.close()
-        print(ss)
-        k=""
-        for i in ss:
-            if type(i)==list:
-                for j in i:
-                    k+=j+"$$"
-            else:
-                k+=i
-        ss=k
-        print(ss)
-        # ss="$$".join(ss)
-        url="http://10.17.18.101:10046/?username="+username+"&password="+password+"&result="+ss
+        if operation=="rm":
+            # with open('/var/www/py/py/data/data.txt', "r") as f:  # 设置文件对象
+            #     data = f.read()
+            # print(data)
+            # temp=""
+            # data = data.split("\n")
+            # for i in data:
+            #     if i!=[] and i.split()!=[] and i.split()[0][:12]!=id[:12]:
+            #         temp=temp+i+"\n"
+            # with open('/var/www/py/py/data/data.txt', 'w') as f:  # 设置文件对象
+            #     f.write(temp)
+            cursor = db.cursor()
+            sql = "DELETE FROM containers WHERE id = '" +id[:12]+"'"
+            print(sql)
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+
+
+        # self.write(self.get_argument("greeting", "<h2>Docker</h2>"))  ################
+        # self.write(self.get_argument("greeting", "<h3>运行结果</h3>"))  ################
+        # result=""
+        # for line in ss:
+        #     s = "<p> "+line.replace(' ', '&nbsp') + "</p>"
+        #     # greeting = self.get_argument("greeting", s)
+        #     # self.write(greeting)
+        #     result+=s
+        ss="$$".join(ss)
+        url="http://10.17.18.101:10047/?username="+username+"&password="+password+"&result="+ss
         self.redirect(url)
+        # self.write(self.get_argument("greeting", "<a href='http://10.17.18.101:10046/?username="+username+"&password="+password+"'>返回首页</a>"))
+
+
 
 handlers = [
     (r"/", IndexHandler),
