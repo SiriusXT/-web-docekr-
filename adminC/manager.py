@@ -41,6 +41,7 @@ def stopall(client):
 
 def stop(client, id):
     s=[]
+    print(">>>>>>>>>>>>>>>>>> ", client.containers.list(),id)
     for container in client.containers.list():
         print(">>>>>> ",str(container).split()[1][:12],id[0:12])
         if str(container).split()[1][:12]==id[0:12]:
